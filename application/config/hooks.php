@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
 | -------------------------------------------------------------------------
 | Hooks
@@ -12,10 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-/* http://php.quicoto.com/how-to-speed-up-codeigniter/ */
-$hook['display_override'] = array(
-    'class' => '',
-    'function' => 'compress',
-    'filename' => 'compress.php',
-    'filepath' => 'hooks'
-);
+
+
+/* End of file hooks.php */
+/* Location: ./application/config/hooks.php */
