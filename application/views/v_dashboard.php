@@ -213,10 +213,10 @@ Rumus : <br />Minutasi / ( Sisa + Terima) * 100 %
                                                 </div>
 												</td>
 								<td><span class="badge bg-<?php echo $warna;?>"><?php echo $progress;?>%</span></td>
-								<td><?php echo $row['sisa'];?></td>
-								<td><?php echo $row['terima'];?></td>
-								<td><?php echo $row['putus'];?></td>
-								<td><?php echo $row['minutasi'];?></td>								
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$row['id'].'/sisa');?>'><?php echo $row['sisa'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$row['id'].'/terima');?>'><?php echo $row['terima'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$row['id'].'/putus');?>'><?php echo $row['putus'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$row['id'].'/minutasi');?>'><?php echo $row['minutasi'];?></a></td>								
 							</tr>
 							<?php
 							endforeach;

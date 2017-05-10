@@ -16,6 +16,44 @@ class Dashboard extends CI_Controller {
 		$this->load->view('template', $a);	
 	}
 	
+	public function progress_hakim_detail($id,$filter){
+		
+		$data = $this->dashboard->get_progress_hakim_detail($id,$filter);
+		
+		switch($filter) {
+			case 'sisa' :
+				$text_filter = '- Sisa perkara tahun lalu (belum minutasi)';
+			break;
+			case 'terima' :
+				$text_filter = '- Perkara yang diterima Tahun ini';
+			break;
+			case 'putus' :
+				$text_filter = '- Perkara yang diputus Tahun ini';
+			break;
+			default:
+				$text_filter = '';
+			
+		}
+		
+		
+		$this->load->library('table');
+		
+		$tmpl = array ( 'table_open'  => '<table class="table table-striped table-hover">' );
+		
+		$this->table->set_template($tmpl); 
+		$this->table->set_heading('No', 'Nomor Perkara', 'Pihak 1','Tgl Daftar','Tgl Sidang I','Tgl Putusan','Tgl Minutasi');
+		$i = 0;
+		foreach ($data as $row ):
+		$i++;
+			$this->table->add_row($i, $row['nomor_perkara'], $row['pihak1_text'], $row['tanggal_pendaftaran'], $row['sidang_pertama'], $row['tanggal_putusan'], $row['tanggal_minutasi']);
+		endforeach;
+		
+		$data['html_table'] = $this->table->generate(); 		
+		$data['text_filter'] = $text_filter;
+		$a['content']	= $this->load->view('simple_table', $data, true);	
+		$this->load->view('template', $a);	
+	}
+	
 	
 	
 	

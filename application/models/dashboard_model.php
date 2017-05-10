@@ -59,19 +59,47 @@ ORDER BY ket ASC";
 		
 	
 	function get_progress_hakim(){
-		$query = $this->db->query("select * from ( SELECT  nama ketua,
-SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL ) THEN 1 ELSE 0 END) sisa,
-SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
-SUM(CASE WHEN YEAR(tanggal_putusan) =YEAR(NOW()) THEN 1 ELSE 0 END) putus,
-SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi
-FROM 
-(
-SELECT a.perkara_id,b.nama,a.`nomor_perkara`,tanggal_pendaftaran, tanggal_putusan, tanggal_minutasi
-FROM v_perkara a LEFT JOIN hakim_pn b
-ON (SUBSTRING_INDEX(majelis_hakim_id, ',', 1) = b.`id`)
-) AS z
- GROUP BY nama) as a1
-  WHERE ( terima + sisa ) > 0");			
+		$query = $this->db->query("select * from ( SELECT  nama ketua,id,
+				SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL ) THEN 1 ELSE 0 END) sisa,
+				SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
+				SUM(CASE WHEN YEAR(tanggal_putusan) =YEAR(NOW()) THEN 1 ELSE 0 END) putus,
+				SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi
+				FROM 
+				(
+				SELECT a.perkara_id,b.id, b.nama,a.`nomor_perkara`,tanggal_pendaftaran, tanggal_putusan, tanggal_minutasi
+				FROM v_perkara a LEFT JOIN hakim_pn b
+				ON (SUBSTRING_INDEX(majelis_hakim_id, ',', 1) = b.`id`)
+				) AS z
+				 GROUP BY nama) as a1
+				  WHERE ( terima + sisa ) > 0");			
+		return $query->result_array();	
+			
+		}
+		
+		function get_progress_hakim_detail($id,$filter){
+		switch($filter) {
+			case 'sisa' :
+				$sql_filter = 'and YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL )';
+			break;case 'terima' :
+				$sql_filter = 'and YEAR(tanggal_pendaftaran)=YEAR(NOW())';
+			break;
+			case 'putus' :
+				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW())';
+			break;
+			default:
+				$sql_filter = '';
+			
+		}
+		#echo $sql_filter;
+		
+		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, tanggal_pendaftaran, sidang_pertama,panitera_pengganti_text, tanggal_putusan, tanggal_minutasi
+									FROM v_perkara a LEFT JOIN hakim_pn b
+									ON (SUBSTRING_INDEX(majelis_hakim_id, ',', 1) = b.`id`)
+									WHERE 1=1
+									".$sql_filter."
+									and b.id=".$id;
+		
+		$query = $this->db->query($sql);			
 		return $query->result_array();	
 			
 		}
