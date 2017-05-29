@@ -85,7 +85,7 @@ Rumus : <br />Minutasi / ( Sisa + Terima) * 100 %
 				<div class="panel-group">
 				<div class="panel panel-success">
 					<div class="panel-heading">
-					 <h3 class="panel-title pull-left">Delegasi Keluar (Sidang yang akan datang)</h3>
+					 <h3 class="panel-title pull-left">Delegasi Keluar (Sidang hari ini s.d 4 hari lagi)</h3>
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">
@@ -131,7 +131,7 @@ Rumus : <br />Minutasi / ( Sisa + Terima) * 100 %
 				<div class="panel-group">
 				<div class="panel panel-success">
 					<div class="panel-heading">
-					 <h3 class="panel-title pull-left">Delegasi Masuk (Sidang yang akan datang)</h3>
+					 <h3 class="panel-title pull-left">Delegasi Masuk (Sidang hari ini s.d 4 hari lagi)</h3>
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">
