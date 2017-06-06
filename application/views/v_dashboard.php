@@ -42,8 +42,8 @@
 		<?php 
 		$progress = number_format($stat_perkara[0]['minutasi']*100 / ($stat_perkara[0]['sisa'] + $stat_perkara[0]['terima']),2);
 		if ( $progress < 50 ) { $warna = 'red' ;}
-							else if ( $progress >= 50 && $progress < 80 ) { $warna = 'red' ;}
-							else if ( $progress > 80 ) { $warna = 'green' ;}
+		else if ( $progress >= 50 && $progress < 80 ) { $warna = 'yellow' ;}
+		else if ( $progress > 80 ) { $warna = 'green' ;}
 		?>
 			<div class="small-box bg-<?php echo $warna;?>">
 				<div class="inner">
