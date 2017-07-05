@@ -104,6 +104,8 @@ body.loading {
     overflow: hidden;   
 }
 
+
 body.loading .modal {
     display: block;
 }
+
