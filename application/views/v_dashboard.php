@@ -10,31 +10,29 @@
 		<div class="col-lg-3">
 			<div class="small-box bg-green">
 				<div class="inner">
-					<h4 id="jml-total">Terima Tahun ini</h4>
 					<h3 id="jml-total"><?php echo $stat_perkara[0]['terima'];?></h3>	
 					Hari ini : <?php echo $stat_perkara[1]['terima'];?><br>
 					Bulan ini : <?php echo $stat_perkara[2]['terima'];?>			
 					</p>
 				</div>
 				<div class="icon">
-					<i class="ion ion-person-add"></i>
+					<i class="ion ion-archive"></i>
 				</div>
-				<span class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></span>
+				<span class="small-box-footer"><strong>Terima Tahun ini</strong></span>
 			</div>	
 		</div>	
 		<div class="col-lg-3">
 			<div class="small-box bg-green">
 				<div class="inner">
-					<h4 id="jml-total">Minutasi Tahun ini</h4>
 					<h3 id="jml-total"><?php echo $stat_perkara[0]['minutasi'];?></h3>	
 					Hari ini : <?php echo $stat_perkara[1]['minutasi'];?><br>
 					Bulan ini : <?php echo $stat_perkara[2]['minutasi'];?>					
 					</p>
 				</div>
 				<div class="icon">
-					<i class="ion ion-person-add"></i>
+					<i class="ion ion-checkmark"></i>
 				</div>
-				<span class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></span>
+				<span class="small-box-footer">Minutasi Tahun ini</span>
 			</div>	
 		</div>	
 		
@@ -47,7 +45,6 @@
 		?>
 			<div class="small-box bg-<?php echo $warna;?>">
 				<div class="inner">
-					<h4 id="jml-total">Penyelesaian Perkara </h4>
 					<h3 id="jml-total"><?php echo $progress;?> %</h3>
 Rumus : <br />Minutasi / ( Sisa + Terima) * 100 %					
 					<br>
@@ -55,16 +52,15 @@ Rumus : <br />Minutasi / ( Sisa + Terima) * 100 %
 					</p>
 				</div>
 				<div class="icon">
-					<i class="ion ion-person-add"></i>
+					<i class="ion ion-speedometer"></i>
 				</div>
-				<span class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></span>
+				<span class="small-box-footer">Penyelesaian Perkara</span>
 			</div>	
 		</div>
 		
 		<div class="col-lg-3">
 			<div class="small-box bg-aqua">
 				<div class="inner">
-					<h4 id="jml-total">Sidang Hari ini</h4>
 					<?php 
 					foreach ( $rekap_sidang  as $row ) { ?>
 					<h3 id="jml-total"><?php echo $row['s_hari_ini'];?></h3>					
@@ -74,9 +70,9 @@ Rumus : <br />Minutasi / ( Sisa + Terima) * 100 %
 					</p>
 				</div>
 				<div class="icon">
-					<i class="ion ion-person-add"></i>
+					<i class="ion ion-calendar"></i>
 				</div>
-				<span class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></span>
+				<span class="small-box-footer">Sidang Hari ini</span>
 			</div>	
 		</div>
 		

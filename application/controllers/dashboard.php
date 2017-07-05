@@ -46,7 +46,8 @@ class Dashboard extends CI_Controller {
 		$i = 0;
 		foreach ($data as $row ):
 		$i++;
-			$this->table->add_row($i, $row['nomor_perkara'], $row['pihak1_text'], $row['tanggal_pendaftaran'], $row['sidang_pertama'], $row['tanggal_putusan'], $row['tanggal_minutasi'],$row['proses_terakhir_text']);
+		$pihak = (strlen($row['pihak1_text']) > 35) ? substr($row['pihak1_text'], 0, 35) . '...' : $row['pihak1_text'];
+			$this->table->add_row($i, $row['nomor_perkara'], $pihak, $row['tanggal_pendaftaran'], $row['sidang_pertama'], $row['tanggal_putusan'], $row['tanggal_minutasi'],$row['proses_terakhir_text']);
 		endforeach;
 		
 		$data['html_table'] = $this->table->generate(); 		
@@ -84,7 +85,8 @@ class Dashboard extends CI_Controller {
 		$i = 0;
 		foreach ($data as $row ):
 		$i++;
-			$this->table->add_row($i, $row['nomor_perkara'], $row['pihak1_text'], $row['tanggal_pendaftaran'], $row['sidang_pertama'], $row['tanggal_putusan'], $row['tanggal_minutasi'],$row['proses_terakhir_text']);
+		$pihak = (strlen($row['pihak1_text']) > 35) ? substr($row['pihak1_text'], 0, 35) . '...' : $row['pihak1_text'];
+			$this->table->add_row($i, $row['nomor_perkara'], $pihak, $row['tanggal_pendaftaran'], $row['sidang_pertama'], $row['tanggal_putusan'], $row['tanggal_minutasi'],$row['proses_terakhir_text']);
 		endforeach;
 		
 		$data['html_table'] = $this->table->generate(); 		
