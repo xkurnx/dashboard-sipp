@@ -46,7 +46,7 @@
 			<div class="small-box bg-<?php echo $warna;?>">
 				<div class="inner">
 					<h3 id="jml-total"><?php echo $progress;?> %</h3>
-Rumus : <br />Minutasi / ( Sisa + Terima) * 100 %					
+Rumus : <br />Minut / ( Sisa + Terima) * 100%					
 					<br>
 								
 					</p>
@@ -63,7 +63,7 @@ Rumus : <br />Minutasi / ( Sisa + Terima) * 100 %
 				<div class="inner">
 					<?php 
 					foreach ( $rekap_sidang  as $row ) { ?>
-					<h3 id="jml-total"><?php echo $row['s_hari_ini'];?></h3>					
+					<h3 id="jml-total"><?php echo ( $row['s_hari_ini'] == '' ) ? 0 : $row['s_hari_ini'];?></h3>					
 					Sidang di PA : <?php echo $row['s_pa'];?><br>
 					Sidang Keliling : <?php echo $row['sidkel'];?><br>	
 					<?php }; ?>					
