@@ -16,6 +16,18 @@ class Dashboard extends CI_Controller {
 		$a['content']	= $this->load->view('v_dashboard', $data, true);	
 		$this->load->view('template', $a);	
 	}
+
+    /** dashboad on fullscreen **/
+    public function fullscreen() {
+		$data['rekap_sidang'] = $this->dashboard->fetch_rekap_sidang();
+		$data['stat_perkara'] = $this->dashboard->fetch_rekap_stat_perkara();
+		$data['progres_hakim'] = $this->dashboard->get_progress_hakim();
+		$data['progres_pp'] = $this->dashboard->get_progress_pp();
+		$data['delegasi_keluar'] = $this->dashboard->fetch_upcoming_delegasi_keluar();
+		$data['delegasi_masuk'] = $this->dashboard->fetch_upcoming_delegasi_masuk();
+		$a['content']	= $this->load->view('v_dashboard_fs', $data, true);
+		$this->load->view('template_fs', $a);
+	}
 	
 	public function progress_hakim_detail($id,$filter){
 		
