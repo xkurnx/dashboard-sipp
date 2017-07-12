@@ -8,14 +8,18 @@ class Dashboard_model extends CI_Model {
 	
 	function fetch_upcoming_delegasi_keluar(){		
 			
-		$sql = "SELECT * FROM delegasi_keluar WHERE  tgl_sidang > NOW() AND tgl_sidang - 4 < NOW() ORDER BY tgl_sidang asc ";
+		$sql = "SELECT * FROM delegasi_keluar dk, delegasi_proses_keluar dpk
+                WHERE  dpk.`delegasi_id`=dk.`id`
+                AND tgl_sidang > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
 		#	echo "<pre>$sql</pre>";
 		return $this->db->query($sql)->result_array();				
 	}
 	
 	function fetch_upcoming_delegasi_masuk(){		
 			
-		$sql = "SELECT * FROM delegasi_masuk WHERE  tgl_sidang > NOW() AND tgl_sidang - 4 < NOW() ORDER BY tgl_sidang asc ";
+		$sql = "SELECT * FROM delegasi_masuk dm, delegasi_proses_masuk dpm
+                WHERE  dpm.`delegasi_id`=dm.`id`
+                AND tgl_sidang > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
 		#	echo "<pre>$sql</pre>";
 		return $this->db->query($sql)->result_array();				
 	}
@@ -108,15 +112,21 @@ ORDER BY ket ASC";
 			
 		}
 		#echo $sql_filter;
+        // klo hakim_id 0, berarti belum ditentukan
+        if ( $id == 0 ) :
+            $sql_filter .= " and b.id is null";
+        else :
+            $sql_filter .= " and b.id = ".$id;
+        endif;
 		
 		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text
 									FROM v_perkara a LEFT JOIN hakim_pn b
 									ON (SUBSTRING_INDEX(majelis_hakim_id, ',', 1) = b.`id`)
 									WHERE 1=1
-									".$sql_filter."
-									and b.id=".$id;
+									".$sql_filter;
 		
-		$query = $this->db->query($sql);			
+		#echo "<pre>$sql</pre>";
+        $query = $this->db->query($sql);
 		return $query->result_array();	
 			
 		}
@@ -137,13 +147,19 @@ ORDER BY ket ASC";
 			
 		}
 		#echo $sql_filter;
+       // klo PP_ID 0, berarti belum ditentukan
+        if ( $id == 0 ) :
+            $sql_filter .= " and b.id is null";
+        else :
+            $sql_filter .= " and b.id = ".$id;
+        endif;
+
 		
 		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text
 				FROM v_perkara a LEFT JOIN panitera_pn b
 				ON (panitera_pengganti_id = b.`id`)
 				WHERE 1=1
-				".$sql_filter."
-				and b.id=".$id;
+				".$sql_filter;
 		
 		$query = $this->db->query($sql);			
 		return $query->result_array();	
