@@ -13,6 +13,7 @@ class Dashboard extends CI_Controller {
 		$data['progres_pp'] = $this->dashboard->get_progress_pp();
 		$data['delegasi_keluar'] = $this->dashboard->fetch_upcoming_delegasi_keluar();
 		$data['delegasi_masuk'] = $this->dashboard->fetch_upcoming_delegasi_masuk();
+		$data['nama_pn']=$this->dashboard->get_sys_config();
 		$a['content']	= $this->load->view('v_dashboard', $data, true);	
 		$this->load->view('template', $a);	
 	}
@@ -20,7 +21,6 @@ class Dashboard extends CI_Controller {
 	public function progress_hakim_detail($id,$filter){
 		
 		$data = $this->dashboard->get_progress_hakim_detail($id,$filter);
-        $nama_hakim = $this->dashboard->get_nama_hakim($id);
 
 		switch($filter) {
 			case 'sisa' :
@@ -31,6 +31,12 @@ class Dashboard extends CI_Controller {
 			break;
 			case 'putus' :
 				$text_filter = '- Perkara yang diputus Tahun ini';
+			break;
+			case 'minutasi' :
+				$text_filter = '- Perkara yang diminutasi Tahun ini';
+			break;
+			case 'sisask' :
+				$text_filter = '- Perkara yang belum diputus Tahun ini';
 			break;
 			default:
 				$text_filter = '';
@@ -53,7 +59,7 @@ class Dashboard extends CI_Controller {
 		
 		$data['html_table'] = $this->table->generate(); 		
 		$data['text_filter'] = $text_filter;
-        $data['text_nama'] = "Ketua Majelis : ".$nama_hakim;
+		$data['nama_pn']=$this->dashboard->get_sys_config();
 		$a['content']	= $this->load->view('simple_table', $data, true);	
 		$this->load->view('template', $a);	
 	}
@@ -61,7 +67,6 @@ class Dashboard extends CI_Controller {
 	public function progress_pp_detail($id,$filter){
 		
 		$data = $this->dashboard->get_progress_pp_detail($id,$filter);
-		$nama_pp = $this->dashboard->get_nama_pp($id);
 
 		switch($filter) {
 			case 'sisa' :
@@ -72,6 +77,12 @@ class Dashboard extends CI_Controller {
 			break;
 			case 'putus' :
 				$text_filter = '- Perkara yang diputus Tahun ini';
+			break;
+			case 'minutasi' :
+				$text_filter = '- Perkara yang diminutasi Tahun ini';
+			break;
+			case 'sisask' :
+				$text_filter = '- Perkara yang belum diminutasi Tahun ini';
 			break;
 			default:
 				$text_filter = '';
@@ -94,12 +105,32 @@ class Dashboard extends CI_Controller {
 		
 		$data['html_table'] = $this->table->generate(); 		
 		$data['text_filter'] = $text_filter;
-        $data['text_nama'] = "Panitera Pengganti : ".$nama_pp;
+		$data['nama_pn']=$this->dashboard->get_sys_config();
 		$a['content']	= $this->load->view('simple_table', $data, true);	
 		$this->load->view('template', $a);	
 	}
 	
-	
+	public function ikrar() {
+		$data = $this->dashboard->get_data_ikrar();
+		$this->load->library('table');
+
+		$tmpl = array ( 'table_open'  => '<table class="table table-striped table-hover">' );
+
+		$this->table->set_template($tmpl);
+		$this->table->set_heading('No', 'Nomor Perkara', 'Ketua Majelis','Tgl Daftar','Tgl Putusan','Tgl Minutasi','Tgl BHT','Tgl Ikrar', 'Status Terakhir');
+		$i = 0;
+		foreach ($data as $row ):
+		$i++;
+		$pihak = $row['hakim_nama'];
+			$this->table->add_row($i, $row['nomor_perkara'], $pihak, $row['tanggal_pendaftaran'],  $row['tanggal_putusan'], $row['tanggal_minutasi'],$row['tanggal_bht'],$row['tgl_ikrar_talak'], $row['proses_terakhir_text']);
+		endforeach;
+
+		$data['html_table'] = $this->table->generate();
+		$data['text_filter'] = " - Sudah Putus Belum Ikrar";
+		$data['nama_pn']=$this->dashboard->get_sys_config();
+		$a['content']	= $this->load->view('simple_table', $data, true);
+		$this->load->view('template', $a);
+	}
 	
 	
 	
