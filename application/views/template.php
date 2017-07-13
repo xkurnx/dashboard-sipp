@@ -23,10 +23,11 @@
 	  font-weight: 400;
 	  src: local('Lobster'), url(<?php echo base_url(); ?>aset/font/tiga.woff) format('woff');
 	}	
-	
+
 	</style>
     <link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/bootstrap.css" media="screen">
-	  <link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/adminLTE.css" media="screen">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/ionicons.min.css" media="screen">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/adminLTE.css" media="screen">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/custom-pakis.css" media="screen">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>

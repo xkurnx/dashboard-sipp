@@ -2,10 +2,10 @@
 $active_group 				= 'default';
 $active_record 				= TRUE;
 
-$db['default']['hostname'] = '192.168.1.100';
-$db['default']['username'] = 'sipp_select';
-$db['default']['password'] = 'sipp_select';
-$db['default']['database'] = 'sipp-prod';
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = 'root';
+$db['default']['database'] = 'sipp-dev';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
