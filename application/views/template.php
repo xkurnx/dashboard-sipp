@@ -104,7 +104,7 @@
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">	
 			<li><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="icon-home icon-white"> </i> Dashboard SIPP</a></li>
-           
+          <li><a href="<?php echo base_url(); ?>index.php/validasi/pts_blm_ikrar">Perkara Putus Belum Ikrar</a></li>
 		
 
         </div>
@@ -122,7 +122,9 @@
     </div>
 	
 	<div id="footer">
-	 Pengadilan Agama Kisaran 2017
+	 <?php
+        echo $this->session->userdata('namaPN');
+	  	?>
 	</div>
 	<div class="loading"></div>
 

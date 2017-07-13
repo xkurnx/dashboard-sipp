@@ -107,6 +107,12 @@ ORDER BY ket ASC";
 			case 'putus' :
 				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW())';
 			break;
+            case 'minutasi' :
+				$sql_filter = 'and YEAR(tanggal_minutasi)=YEAR(NOW())';
+			break;
+			case 'sisask':
+				$sql_filter = 'and YEAR(tanggal_putusan) is NULL';
+			break;
 			default:
 				$sql_filter = '';
 			
@@ -142,6 +148,12 @@ ORDER BY ket ASC";
 			case 'putus' :
 				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW())';
 			break;
+            case 'minutasi' :
+				$sql_filter = 'and YEAR(tanggal_minutasi)=YEAR(NOW())';
+			break;
+			case 'sisask':
+				$sql_filter = 'and YEAR(tanggal_putusan) is NOT NULL and year(tanggal_putusan)=year(now()) AND YEAR(tanggal_minutasi) is NULL';
+			break;
 			default:
 				$sql_filter = '';
 			
@@ -156,7 +168,7 @@ ORDER BY ket ASC";
 
 		
 		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text
-				FROM v_perkara a LEFT JOIN panitera_pn b
+				FROM v_perkara a LEFT outer JOIN panitera_pn b
 				ON (panitera_pengganti_id = b.`id`)
 				WHERE 1=1
 				".$sql_filter;
@@ -166,7 +178,40 @@ ORDER BY ket ASC";
 			
 		}
 	
+    function get_nama_hakim($id){
+        if ( $id == 0 )
+            return "Belum ditentukan" ;
+        $sql = $this->db->where("id",$id);
+        $data = $this->db->get("hakim_pn")->row();
+       return $data->nama_gelar;
+    }
+
+    function get_nama_pp($id){
+        if ( $id == 0 )
+            return "Belum ditentukan" ;
+        $sql = $this->db->where("id",$id);
+        $data = $this->db->get("panitera_pn")->row();
+		return $data->nama_gelar;
+    }
 	
+        function get_data_ikrar()
+    	{
+    		$sql = "SELECT DISTINCT * FROM perkara AS a LEFT JOIN perkara_ikrar_talak AS b ON a.`perkara_id`=b.`perkara_id`
+    LEFT JOIN perkara_putusan AS c ON a.`perkara_id`=c.`perkara_id` join perkara_hakim_pn as d on a.`perkara_id`=d.`perkara_id`
+    WHERE a.jenis_perkara_id='346' AND YEAR(a.tanggal_pendaftaran)=YEAR(NOW())
+    and b.`penetapan_majelis_hakim` is NULL  AND c.tanggal_bht IS NOT NULL and jabatan_hakim_id=1 and d.`aktif`='Y'";
+
+    		$query = $this->db->query($sql);
+    		return $query->result_array();
+    	}
+
+    	function get_sys_config($name)
+    	{
+    		$sql="select * from sys_config where name = '$name'";
+    		$query = $this->db->query($sql);
+    		return $query->row()->value;
+    	}
+
 		
 	
 }
