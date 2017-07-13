@@ -103,8 +103,15 @@
 		
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">	
-			<li><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="icon-home icon-white"> </i> Dashboard SIPP</a></li>
-          <li><a href="<?php echo base_url(); ?>index.php/validasi/pts_blm_ikrar">Perkara Putus Belum Ikrar</a></li>
+			<li><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="icon-home icon-white"> </i> Beranda</a></li>
+        <li><a href="<?php echo base_url(); ?>index.php/perkara"><i class="ion-clock icon-white"> </i> Penanganan Perkara</a></li>
+
+        <li class="dropdown"><a href="<?php echo base_url(); ?>index.php/validasi/pts_blm_ikrar"><i class="ion-document-text icon-white"> </i> Perkara Putus Belum Ikrar</a>
+            <ul class="dropdown-menu">
+                <li>testing</li>
+            </ul>
+              </li>
+
 		
 
         </div>

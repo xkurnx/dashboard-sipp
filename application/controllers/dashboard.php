@@ -53,7 +53,7 @@ class Dashboard extends CI_Controller {
 		$tmpl = array ( 'table_open'  => '<table class="table table-striped table-hover">' );
 		
 		$this->table->set_template($tmpl); 
-		$this->table->set_heading('No', 'Nomor Perkara', 'Pihak 1','Tgl Daftar','Tgl Sidang I','Tgl Putusan','Tgl Minutasi','Status Terakhir');
+		$this->table->set_heading('No', 'Nomor Perkara', 'Pemohon/Penggugat','Tgl Daftar','Tgl Sidang I','Tgl Putusan','Tgl Minutasi','Status Terakhir');
 		$i = 0;
 		foreach ($data as $row ):
 		$i++;
@@ -93,7 +93,7 @@ class Dashboard extends CI_Controller {
 		$tmpl = array ( 'table_open'  => '<table class="table table-striped table-hover">' );
 		
 		$this->table->set_template($tmpl); 
-		$this->table->set_heading('No', 'Nomor Perkara', 'Pihak 1','Tgl Daftar','Tgl Sidang I','Tgl Putusan','Tgl Minutasi','Status Terakhir');
+		$this->table->set_heading('No', 'Nomor Perkara', 'Pemohon/Penggugat','Tgl Daftar','Tgl Sidang I','Tgl Putusan','Tgl Minutasi','Status Terakhir');
 		$i = 0;
 		foreach ($data as $row ):
 		$i++;

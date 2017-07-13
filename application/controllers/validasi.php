@@ -37,6 +37,7 @@ class Validasi extends CI_Controller {
 
         $data['html_table'] = $this->table->generate();
 		$data['text_filter'] = " - Sudah Putus Belum Ikrar";
+        $data['text_nama'] = "";
 		$a['content']	= $this->load->view('simple_table', $data, true);
 		$this->load->view('template', $a);
 	}

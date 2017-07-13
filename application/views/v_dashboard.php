@@ -22,7 +22,7 @@
 			</div>	
 		</div>	
 		<div class="col-lg-3">
-			<div class="small-box bg-green">
+			<div class="small-box" style="background:#256d38;color:white">
 				<div class="inner">
 					<h3 id="jml-total"><?php echo $stat_perkara[0]['minutasi'];?></h3>	
 					Hari ini : <?php echo $stat_perkara[1]['minutasi'];?><br>
