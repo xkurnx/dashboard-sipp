@@ -81,7 +81,7 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 				<div class="panel-group">
 				<div class="panel panel-success">
 					<div class="panel-heading">
-					 <h3 class="panel-title pull-left">Delegasi Keluar (Sidang hari ini s.d 7 hari kedepan)</h3>
+					 <h3 class="panel-title pull-left">Delegasi Keluar (Sidang hari ini s.d 4 hari lagi)</h3>
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">
@@ -106,7 +106,6 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 								<td><?php echo $row['tgl_sidang'];?></td>
 								<td><?php echo $row['pn_tujuan_text'];?></td>
 								<td><?php echo $row['tgl_pengiriman'];?></td>
-
 							</tr>
 							<?php
 							endforeach;
@@ -128,7 +127,7 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 				<div class="panel-group">
 				<div class="panel panel-success">
 					<div class="panel-heading">
-					 <h3 class="panel-title pull-left">Delegasi Masuk (Sidang hari ini s.d 7 hari kedepan)</h3>
+					 <h3 class="panel-title pull-left">Delegasi Masuk (Sidang hari ini s.d 4 hari lagi)</h3>
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">
@@ -139,7 +138,6 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 								<th width="10%">Tgl Sidang</th>		
 								<th width="">PA Pengirim</th>
 								<th width="">Tgl Kirim</th>
-                                <th width="">Jurusita</th>
 								<!-- <th width="5%">Pembuat</th>		-->					
 							</tr>
 						</thead>
@@ -154,7 +152,6 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 								<td><?php echo $row['tgl_sidang'];?></td>
 								<td><?php echo $row['pn_asal_text'];?></td>
 								<td><?php echo $row['tgl_pengiriman'];?></td>
-                                <td><?php echo $row['jurusita_nama'];?></td>
 							</tr>
 							<?php
 							endforeach;
@@ -184,58 +181,49 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 						<thead>
 							<tr>
 								<th width="35%">Ketua Majelis</th>
-								<th width="10%">Progres Minut</th>
+								<th width="10%">Progres Putus</th>
 								<th width="10%">Sisa Thn Lalu</th>		
 								<th width="10%">Terima</th>
 								<th width="10%">Putus</th>
 								<th width="10%">Minutasi</th>
+								<th width="10%">Belum Putus</th>
 								<!-- <th width="5%">Pembuat</th>		-->					
 							</tr>
 						</thead>
 						<tbody>
 							<?php
 							#print_r($delegasi_keluar);	
-							$j_sisa = 	$j_terima = 	$j_putus = 	$j_minutasi = 0;			
+							$j_sisa = 	$j_terima = 	$j_putus = 	$j_minutasi = $j_sisask = 0;
 							foreach ( $progres_hakim as $row ):
 							$j_sisa+=$row['sisa'];
 							$j_terima+=$row['terima'];
 							$j_putus+=$row['putus'];
 							$j_minutasi+=$row['minutasi'];
-							$progress = number_format($row['minutasi'] * 100 / ( $row['sisa'] + $row['terima'] ),2);
+							$j_sisask+=$row['sisask'];
+							$progress = number_format($row['putus'] * 100 / ( $row['sisa'] + $row['terima'] ),2);
 							if ( $progress < 50 ) { $warna = 'red' ;}
 							else if ( $progress >= 50 && $progress < 80 ) { $warna = 'yellow' ;}
 							else if ( $progress > 80 ) { $warna = 'green' ;}
-
-                            $nama_km = $row['ketua'];
-                            $id_km = $row['id'];
-                            // klo ketua majelis belum ditentukan
-                            if ( $row['ketua'] == '' ) :
-                                $nama_km = "Belum ditentukan";
-                                $id_km = 0;
-                            endif;
-
 							?>
 							<tr>
-								<td><?php echo $nama_km;?>
+								<td><?php echo ( $row['ketua'] == '' ) ? 'Blm ditentukan' : $row['ketua'];?>
 												<div class="progress xs progress-striped active">
                                                     <div style="width: <?php echo $progress;?>%" class="progress-bar progress-bar-<?php echo $warna;?>"></div>
                                                 </div>
 												</td>
-
-                                    <td><span class="badge bg-<?php echo $warna;?>"><?php echo $progress;?>%</span></td>
-                                    <td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$id_km.'/sisa');?>'><?php echo $row['sisa'];?></a></td>
-                                    <td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$id_km.'/terima');?>'><?php echo $row['terima'];?></a></td>
-                                    <td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$id_km.'/putus');?>'><?php echo $row['putus'];?></a></td>
-                                    <td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$id_km.'/minutasi');?>'><?php echo $row['minutasi'];?></a></td>
-
-
+								<td><span class="badge bg-<?php echo $warna;?>"><?php echo $progress;?>%</span></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$row['id'].'/sisa');?>'><?php echo $row['sisa'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$row['id'].'/terima');?>'><?php echo $row['terima'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$row['id'].'/putus');?>'><?php echo $row['putus'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$row['id'].'/minutasi');?>'><?php echo $row['minutasi'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_hakim_detail/'.$row['id'].'/sisask');?>'><?php echo $row['sisask'];?></a></td>
 							</tr>
 							<?php
 							endforeach;
-							$progress = number_format($j_minutasi *100 / ($j_sisa+$j_terima),2);
-							if ( $progress < 50 ) { $warna = 'red' ;}
-							else if ( $progress >= 50 && $progress < 80 ) { $warna = 'red' ;}
-							else if ( $progress > 80 ) { $warna = 'green' ;}
+							$progress = number_format($j_putus *100 / ($j_sisa+$j_terima),2);
+							if ( $progress < 50 ) { $warna = 'green' ;}
+							else if ( $progress >= 50 && $progress < 80 ) { $warna = 'yellow' ;}
+							else if ( $progress > 80 ) { $warna = 'red' ;}
 							?>
 							
 							<tr>
@@ -244,7 +232,8 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 								<td><?php echo $j_sisa;?></td>
 								<td><?php echo $j_terima;?></td>
 								<td><?php echo $j_putus;?></td>
-								<td><?php echo $j_minutasi;?></td>								
+								<td><?php echo $j_minutasi;?></td>
+								<td><?php echo $j_sisask;?></td>
 							</tr>
 						</tbody>
 						
@@ -278,42 +267,36 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 								<th width="10%">Terima</th>
 								<th width="10%">Putus</th>
 								<th width="10%">Minutasi</th>
+								<th width="10%">Belum Minutasi</th>
 								<!-- <th width="5%">Pembuat</th>		-->					
 							</tr>
 						</thead>
 						<tbody>
 							<?php
 							#print_r($delegasi_keluar);	
-							$j_sisa = 	$j_terima = 	$j_putus = 	$j_minutasi = 0;			
+							$j_sisa = 	$j_terima = 	$j_putus = 	$j_minutasi = $j_sisask = 0;
 							foreach ( $progres_pp as $row ):
 							$j_sisa+=$row['sisa'];
 							$j_terima+=$row['terima'];
 							$j_putus+=$row['putus'];
 							$j_minutasi+=$row['minutasi'];
-							$progress = number_format($row['minutasi'] * 100 / ( $row['sisa'] + $row['terima'] ),2);
+							$j_sisask+=$row['sisask'];
+							$progress = number_format($row['minutasi'] * 100 / ( $row['terima'] + $row['sisa']) ,2);
 							if ( $progress < 50 ) { $warna = 'red' ;}
 							else if ( $progress >= 50 && $progress < 80 ) { $warna = 'yellow' ;}
 							else if ( $progress > 80 ) { $warna = 'green' ;}
-
-                            $nama_pp = $row['pp'];
-                            $id_pp = $row['id'];
-                            // klo PP belum ditentukan
-                            if ( $row['pp'] == '' ) :
-                                $nama_pp = "Belum ditentukan";
-                                $id_pp = 0;
-                            endif;
 							?>
 							<tr>
-								<td><?php echo $nama_pp ;?>
+								<td><?php echo ( $row['pp'] == '' ) ? 'Blm ditentukan' : $row['pp'];?>
 												<div class="progress xs progress-striped active">
                                                     <div style="width: <?php echo $progress;?>%" class="progress-bar progress-bar-<?php echo $warna;?>"></div>
                                                 </div>
 												</td>
 								<td><span class="badge bg-<?php echo $warna;?>"><?php echo $progress;?>%</span></td>
-								<td><a href='<?php echo site_url('index.php/dashboard/progress_pp_detail/'.$id_pp.'/sisa');?>'><?php echo $row['sisa'];?></a></td>
-								<td><a href='<?php echo site_url('index.php/dashboard/progress_pp_detail/'.$id_pp.'/terima');?>'><?php echo $row['terima'];?></a></td>
-								<td><a href='<?php echo site_url('index.php/dashboard/progress_pp_detail/'.$id_pp.'/putus');?>'><?php echo $row['putus'];?></a></td>
-								<td><a href='<?php echo site_url('index.php/dashboard/progress_pp_detail/'.$id_pp.'/minutasi');?>'><?php echo $row['minutasi'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_pp_detail/'.$row['id'].'/sisa');?>'><?php echo $row['sisa'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_pp_detail/'.$row['id'].'/terima');?>'><?php echo $row['terima'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_pp_detail/'.$row['id'].'/putus');?>'><?php echo $row['putus'];?></a></td>
+								<td><a href='<?php echo site_url('index.php/dashboard/progress_pp_detail/'.$row['id'].'/minutasi');?>'><?php echo $row['minutasi'];?></a></td>												<td><a href='<?php echo site_url('index.php/dashboard/progress_pp_detail/'.$row['id'].'/sisask');?>'><?php echo $row['sisask'];?></a></td>
 							</tr>
 							<?php
 							endforeach;
@@ -329,7 +312,8 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 								<td><?php echo $j_sisa;?></td>
 								<td><?php echo $j_terima;?></td>
 								<td><?php echo $j_putus;?></td>
-								<td><?php echo $j_minutasi;?></td>								
+								<td><?php echo $j_minutasi;?></td>
+								<td><?php echo $j_sisask;?></td>
 							</tr>
 						</tbody>
 						
@@ -347,4 +331,3 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 		
 		
     </div>
-	

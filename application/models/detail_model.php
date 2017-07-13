@@ -63,7 +63,8 @@ ORDER BY ket ASC";
 SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL ) THEN 1 ELSE 0 END) sisa,
 SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
 SUM(CASE WHEN YEAR(tanggal_putusan) =YEAR(NOW()) THEN 1 ELSE 0 END) putus,
-SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi
+SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi,
+SUM(CASE WHEN YEAR(tanggal_putusan) IS NULL THEN 1 ELSE 0 END) sisask
 FROM 
 (
 SELECT a.perkara_id,b.nama,a.`nomor_perkara`,tanggal_pendaftaran, tanggal_putusan, tanggal_minutasi

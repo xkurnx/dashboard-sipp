@@ -8,18 +8,14 @@ class Dashboard_model extends CI_Model {
 	
 	function fetch_upcoming_delegasi_keluar(){		
 			
-		$sql = "SELECT * FROM delegasi_keluar dk, delegasi_proses_keluar dpk
-                WHERE  dpk.`delegasi_id`=dk.`id`
-                AND tgl_sidang > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
+		$sql = "SELECT * FROM delegasi_keluar WHERE  tgl_sidang > NOW() AND tgl_sidang - 4 < NOW() ORDER BY tgl_sidang asc ";
 		#	echo "<pre>$sql</pre>";
 		return $this->db->query($sql)->result_array();				
 	}
 	
 	function fetch_upcoming_delegasi_masuk(){		
 			
-		$sql = "SELECT * FROM delegasi_masuk dm, delegasi_proses_masuk dpm
-                WHERE  dpm.`delegasi_id`=dm.`id`
-                AND tgl_sidang > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
+		$sql = "SELECT * FROM delegasi_masuk WHERE  tgl_sidang > NOW() AND tgl_sidang - 4 < NOW() ORDER BY tgl_sidang asc ";
 		#	echo "<pre>$sql</pre>";
 		return $this->db->query($sql)->result_array();				
 	}
@@ -64,10 +60,11 @@ ORDER BY ket ASC";
 	
 	function get_progress_hakim(){
 			$query = $this->db->query("select * from ( SELECT  nama ketua,id,
-					SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL ) THEN 1 ELSE 0 END) sisa,
+					SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_putusan) = YEAR(NOW()) OR tanggal_putusan IS NULL ) THEN 1 ELSE 0 END) sisa,
 					SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
 					SUM(CASE WHEN YEAR(tanggal_putusan) =YEAR(NOW()) THEN 1 ELSE 0 END) putus,
-					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi
+					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi,
+					SUM(CASE WHEN YEAR(tanggal_putusan) IS NULL THEN 1 ELSE 0 END) sisask
 					FROM 
 					(
 					SELECT a.perkara_id,b.id, b.nama,a.`nomor_perkara`,tanggal_pendaftaran, tanggal_putusan, tanggal_minutasi
@@ -82,10 +79,11 @@ ORDER BY ket ASC";
 		
 		function get_progress_pp(){
 			$query = $this->db->query("SELECT * FROM ( SELECT  nama pp,id,
-					SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL ) THEN 1 ELSE 0 END) sisa,
+					SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_putusan) = YEAR(NOW()) OR tanggal_putusan IS NULL ) THEN 1 ELSE 0 END) sisa,
 					SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
 					SUM(CASE WHEN YEAR(tanggal_putusan) =YEAR(NOW()) THEN 1 ELSE 0 END) putus,
-					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi
+					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi,
+					SUM(CASE WHEN YEAR(tanggal_putusan) IS NOT NULL AND YEAR(tanggal_putusan)=year(now()) and YEAR(tanggal_minutasi) is NULL THEN 1 ELSE 0 END) sisask
 					FROM 
 					(
 					SELECT a.perkara_id,b.id, b.nama,a.`nomor_perkara`,tanggal_pendaftaran, tanggal_putusan, tanggal_minutasi
@@ -100,33 +98,33 @@ ORDER BY ket ASC";
 		function get_progress_hakim_detail($id,$filter){
 		switch($filter) {
 			case 'sisa' :
-				$sql_filter = 'and YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL )';
+				$sql_filter = 'and YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_putusan) = YEAR(NOW()) OR YEAR(tanggal_putusan) is NULL )';
 			break;case 'terima' :
 				$sql_filter = 'and YEAR(tanggal_pendaftaran)=YEAR(NOW())';
 			break;
 			case 'putus' :
 				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW())';
 			break;
+			case 'minutasi' :
+				$sql_filter = 'and YEAR(tanggal_minutasi)=YEAR(NOW())';
+			break;
+			case 'sisask':
+				$sql_filter = 'and YEAR(tanggal_putusan) is NULL';
+			break;
 			default:
 				$sql_filter = '';
 			
 		}
 		#echo $sql_filter;
-        // klo hakim_id 0, berarti belum ditentukan
-        if ( $id == 0 ) :
-            $sql_filter .= " and b.id is null";
-        else :
-            $sql_filter .= " and b.id = ".$id;
-        endif;
 		
 		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text
 									FROM v_perkara a LEFT JOIN hakim_pn b
 									ON (SUBSTRING_INDEX(majelis_hakim_id, ',', 1) = b.`id`)
 									WHERE 1=1
-									".$sql_filter;
+									".$sql_filter."
+									and b.id=".$id;
 		
-		#echo "<pre>$sql</pre>";
-        $query = $this->db->query($sql);
+		$query = $this->db->query($sql);
 		return $query->result_array();	
 			
 		}
@@ -135,52 +133,53 @@ ORDER BY ket ASC";
 		function get_progress_pp_detail($id,$filter){
 		switch($filter) {
 			case 'sisa' :
-				$sql_filter = 'and YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL )';
+				$sql_filter = 'and YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_putusan) = YEAR(NOW()) OR tanggal_putusan IS NULL )';
 			break;case 'terima' :
 				$sql_filter = 'and YEAR(tanggal_pendaftaran)=YEAR(NOW())';
 			break;
 			case 'putus' :
 				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW())';
 			break;
+			case 'minutasi' :
+				$sql_filter = 'and YEAR(tanggal_minutasi)=YEAR(NOW())';
+			break;
+			case 'sisask':
+				$sql_filter = 'and YEAR(tanggal_putusan) is NOT NULL and year(tanggal_putusan)=year(now()) AND YEAR(tanggal_minutasi) is NULL';
+			break;
 			default:
 				$sql_filter = '';
 			
 		}
 		#echo $sql_filter;
-       // klo PP_ID 0, berarti belum ditentukan
-        if ( $id == 0 ) :
-            $sql_filter .= " and b.id is null";
-        else :
-            $sql_filter .= " and b.id = ".$id;
-        endif;
-
 		
 		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text
-				FROM v_perkara a LEFT JOIN panitera_pn b
+				FROM v_perkara a LEFT outer JOIN panitera_pn b
 				ON (panitera_pengganti_id = b.`id`)
 				WHERE 1=1
-				".$sql_filter;
+				".$sql_filter."
+				and b.id=".$id;
 		
 		$query = $this->db->query($sql);			
 		return $query->result_array();	
 			
 		}
-
-
-    function get_nama_hakim($id){
-        $sql = $this->db->where("id",$id);
-        $data = $this->db->get("hakim_pn")->row();
-		return $data->nama_gelar;
-    }
-
-    function get_nama_pp($id){
-        $sql = $this->db->where("id",$id);
-        $data = $this->db->get("panitera_pn")->row();
-		return $data->nama_gelar;
-    }
 	
-	
+	function get_data_ikrar()
+	{
+		$sql = "SELECT DISTINCT * FROM perkara AS a LEFT JOIN perkara_ikrar_talak AS b ON a.`perkara_id`=b.`perkara_id`
+LEFT JOIN perkara_putusan AS c ON a.`perkara_id`=c.`perkara_id` join perkara_hakim_pn as d on a.`perkara_id`=d.`perkara_id`
+WHERE a.jenis_perkara_id='346' AND YEAR(a.tanggal_pendaftaran)=YEAR(NOW())
+and b.`penetapan_majelis_hakim` is NULL  AND c.tanggal_bht IS NOT NULL and jabatan_hakim_id=1 and d.`aktif`='Y'";
 		
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
 	
+	function get_sys_config()
+	{
+		$sql="select * from sys_config where id=62";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+			}
 }
 ?>

@@ -104,7 +104,7 @@
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">	
 			<li><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="icon-home icon-white"> </i> Dashboard SIPP</a></li>
-           
+           <li><a href="<?php echo base_url(); ?>index.php/dashboard/ikrar">Perkara Putus Belum Ikrar</a></li>
 		
 
         </div>
@@ -114,15 +114,26 @@
 	
     <div class="container  paddingBottom50" style="padding-top:80px">
 
-     
+<?php echo $content; ?>
 
-		<?php echo $content; ?>
+
 	
  
     </div>
-	
 	<div id="footer">
-	 Pengadilan Agama Kisaran 2017
+	 <table width="100%">
+	 <tr>
+	 <td width="35%"></td>
+	 <td width="30%" align="center" style="vertical-align:middle;">
+	 <?php foreach ( $nama_pn as $row):
+	  	echo $row['value'];
+	  	endforeach;
+	  	?></td>
+	  	<td width="35%" align="center" style="font-size:13px; vertical-align:middle;">
+	 Hak Cipta &copy; Tim Satgas IT PTA Medan 2017  </td>
+
+	 </tr>
+	  	</table>
 	</div>
 	<div class="loading"></div>
 
