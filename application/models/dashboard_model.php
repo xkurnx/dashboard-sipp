@@ -165,6 +165,19 @@ ORDER BY ket ASC";
 		return $query->result_array();	
 			
 		}
+
+
+    function get_nama_hakim($id){
+        $sql = $this->db->where("id",$id);
+        $data = $this->db->get("hakim_pn")->row();
+		return $data->nama_gelar;
+    }
+
+    function get_nama_pp($id){
+        $sql = $this->db->where("id",$id);
+        $data = $this->db->get("panitera_pn")->row();
+		return $data->nama_gelar;
+    }
 	
 	
 		
