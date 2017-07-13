@@ -223,7 +223,7 @@ $progress = number_format((($row['sangat'] + $row['bahaya'])/($row['baik'] + $ro
 							?>
 
 							<tr>
-								<td><?php echo ( $row['ketua'] == '' ) ? 'Blm ditentukan' : $row['ketua'];?>
+								<td><?php echo ( $row['ketua'] == '' ) ? 'Belum ditentukan' : $row['ketua'];?>
 												<div class="progress xs progress-striped active">
                                                     <div style="width: <?php echo $progress;?>%" class="progress-bar progress-bar-<?php echo $warna;?>"></div>
                                                 </div>
@@ -319,7 +319,7 @@ $progress = number_format(($row['baik'] + $row['kurang'] + $row['sangat'] + $row
 							else if ( $progress > 80 ) { $warna = 'green' ;}
 							?>
 							<tr>
-								<td><?php echo ( $row['ketua'] == '' ) ? 'Blm ditentukan' : $row['ketua'];?>
+								<td><?php echo ( $row['ketua'] == '' ) ? 'Belum ditentukan' : $row['ketua'];?>
 												<div class="progress xs progress-striped active">
                                                     <div style="width: <?php echo $progress;?>%" class="progress-bar progress-bar-<?php echo $warna;?>"></div>
                                                 </div>

@@ -129,9 +129,12 @@
     </div>
 	
 	<div id="footer">
-	 <?php
+	 <div class="container">
+        <?php
         echo $this->session->userdata('namaPN');
-	  	?>
+        ?>
+        <span class=""> - dikembangkan oleh TIM SATGAS PTA Medan</span>
+    </div>
 	</div>
 	<div class="loading"></div>
 
