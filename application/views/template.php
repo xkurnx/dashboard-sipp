@@ -103,8 +103,15 @@
 		
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">	
-			<li><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="icon-home icon-white"> </i> Dashboard SIPP</a></li>
-           
+			<li><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="icon-home icon-white"> </i> Beranda</a></li>
+        <li><a href="<?php echo base_url(); ?>index.php/perkara"><i class="ion-clock icon-white"> </i> Penanganan Perkara</a></li>
+
+        <li class="dropdown"><a href="<?php echo base_url(); ?>index.php/validasi/pts_blm_ikrar"><i class="ion-document-text icon-white"> </i> Perkara Putus Belum Ikrar</a>
+            <ul class="dropdown-menu">
+                <li>testing</li>
+            </ul>
+              </li>
+
 		
 
         </div>
@@ -122,7 +129,12 @@
     </div>
 	
 	<div id="footer">
-	 Pengadilan Agama Kisaran 2017
+	 <div class="container">
+        <?php
+        echo $this->session->userdata('namaPN');
+        ?>
+        <span class=""> - dikembangkan oleh TIM SATGAS PTA Medan</span>
+    </div>
 	</div>
 	<div class="loading"></div>
 

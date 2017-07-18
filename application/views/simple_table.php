@@ -10,7 +10,8 @@
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">
-					<?php echo $html_table;?>
+					 <h4 class="panel-title pull-left"><?php echo $text_nama; ?></h4>
+                     <?php echo $html_table;?>
 				
 					</div>
 				</div>		

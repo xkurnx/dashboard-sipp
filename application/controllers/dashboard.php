@@ -3,7 +3,17 @@
 class Dashboard extends CI_Controller {
 	function __construct() {
 		parent::__construct();	
-		$this->load->model('dashboard_model','dashboard');			
+		$this->load->model('dashboard_model','dashboard');
+        $this->load->library('session');
+        // cek session
+        if ( $this->session->userdata('namaPN') =='' )  :
+            $config = array(
+            'namaPN'  => $this->dashboard->get_sys_config('NamaPN')
+            );
+
+        $this->session->set_userdata($config);
+        endif;
+
 	}
 	
 	public function index() {
@@ -13,6 +23,7 @@ class Dashboard extends CI_Controller {
 		$data['progres_pp'] = $this->dashboard->get_progress_pp();
 		$data['delegasi_keluar'] = $this->dashboard->fetch_upcoming_delegasi_keluar();
 		$data['delegasi_masuk'] = $this->dashboard->fetch_upcoming_delegasi_masuk();
+        $a['namaPN'] = $this->session->userdata('namaPN');
 		$a['content']	= $this->load->view('v_dashboard', $data, true);	
 		$this->load->view('template', $a);	
 	}
@@ -20,7 +31,7 @@ class Dashboard extends CI_Controller {
 	public function progress_hakim_detail($id,$filter){
 		
 		$data = $this->dashboard->get_progress_hakim_detail($id,$filter);
-		
+		$nama_hakim = $this->dashboard->get_nama_hakim($id);
 		switch($filter) {
 			case 'sisa' :
 				$text_filter = '- Sisa perkara tahun lalu (belum minutasi)';
@@ -42,7 +53,7 @@ class Dashboard extends CI_Controller {
 		$tmpl = array ( 'table_open'  => '<table class="table table-striped table-hover">' );
 		
 		$this->table->set_template($tmpl); 
-		$this->table->set_heading('No', 'Nomor Perkara', 'Pihak 1','Tgl Daftar','Tgl Sidang I','Tgl Putusan','Tgl Minutasi','Status Terakhir');
+		$this->table->set_heading('No', 'Nomor Perkara', 'Pemohon/Penggugat','Tgl Daftar','Tgl Sidang I','Tgl Putusan','Tgl Minutasi','Status Terakhir');
 		$i = 0;
 		foreach ($data as $row ):
 		$i++;
@@ -52,6 +63,7 @@ class Dashboard extends CI_Controller {
 		
 		$data['html_table'] = $this->table->generate(); 		
 		$data['text_filter'] = $text_filter;
+        $data['text_nama'] = "Ketua Majelis : ".$nama_hakim;
 		$a['content']	= $this->load->view('simple_table', $data, true);	
 		$this->load->view('template', $a);	
 	}
@@ -59,7 +71,7 @@ class Dashboard extends CI_Controller {
 	public function progress_pp_detail($id,$filter){
 		
 		$data = $this->dashboard->get_progress_pp_detail($id,$filter);
-		
+		$nama_pp = $this->dashboard->get_nama_pp($id);
 		switch($filter) {
 			case 'sisa' :
 				$text_filter = '- Sisa perkara tahun lalu (belum minutasi)';
@@ -81,7 +93,7 @@ class Dashboard extends CI_Controller {
 		$tmpl = array ( 'table_open'  => '<table class="table table-striped table-hover">' );
 		
 		$this->table->set_template($tmpl); 
-		$this->table->set_heading('No', 'Nomor Perkara', 'Pihak 1','Tgl Daftar','Tgl Sidang I','Tgl Putusan','Tgl Minutasi','Status Terakhir');
+		$this->table->set_heading('No', 'Nomor Perkara', 'Pemohon/Penggugat','Tgl Daftar','Tgl Sidang I','Tgl Putusan','Tgl Minutasi','Status Terakhir');
 		$i = 0;
 		foreach ($data as $row ):
 		$i++;
@@ -91,13 +103,13 @@ class Dashboard extends CI_Controller {
 		
 		$data['html_table'] = $this->table->generate(); 		
 		$data['text_filter'] = $text_filter;
+        $data['text_nama'] = "Panitera Pengganti : ".$nama_pp;
 		$a['content']	= $this->load->view('simple_table', $data, true);	
 		$this->load->view('template', $a);	
 	}
 	
 	
-	
-	
+
 	
 	
 	
