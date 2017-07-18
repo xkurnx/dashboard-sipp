@@ -64,10 +64,11 @@ ORDER BY ket ASC";
 	
 	function get_progress_hakim(){
 			$query = $this->db->query("select * from ( SELECT  nama ketua,id,
-					SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL ) THEN 1 ELSE 0 END) sisa,
+					SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_putusan) = YEAR(NOW()) OR tanggal_putusan IS NULL ) THEN 1 ELSE 0 END) sisa,
 					SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
 					SUM(CASE WHEN YEAR(tanggal_putusan) =YEAR(NOW()) THEN 1 ELSE 0 END) putus,
-					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi
+					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi,
+					SUM(CASE WHEN YEAR(tanggal_putusan) IS NULL THEN 1 ELSE 0 END) sisask
 					FROM 
 					(
 					SELECT a.perkara_id,b.id, b.nama,a.`nomor_perkara`,tanggal_pendaftaran, tanggal_putusan, tanggal_minutasi
@@ -82,10 +83,11 @@ ORDER BY ket ASC";
 		
 		function get_progress_pp(){
 			$query = $this->db->query("SELECT * FROM ( SELECT  nama pp,id,
-					SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_minutasi) = YEAR(NOW()) OR tanggal_minutasi IS NULL ) THEN 1 ELSE 0 END) sisa,
+					SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW()) AND (  YEAR(tanggal_putusan) = YEAR(NOW()) OR tanggal_putusan IS NULL ) THEN 1 ELSE 0 END) sisa,
 					SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
 					SUM(CASE WHEN YEAR(tanggal_putusan) =YEAR(NOW()) THEN 1 ELSE 0 END) putus,
-					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi
+					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi,
+					SUM(CASE WHEN YEAR(tanggal_putusan) IS NOT NULL AND YEAR(tanggal_putusan)=year(now()) and YEAR(tanggal_minutasi) is NULL THEN 1 ELSE 0 END) sisask
 					FROM 
 					(
 					SELECT a.perkara_id,b.id, b.nama,a.`nomor_perkara`,tanggal_pendaftaran, tanggal_putusan, tanggal_minutasi
@@ -97,6 +99,8 @@ ORDER BY ket ASC";
 		return $query->result_array();			 
 		}
 		
+
+
 		function get_progress_hakim_detail($id,$filter){
 		switch($filter) {
 			case 'sisa' :

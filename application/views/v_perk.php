@@ -278,7 +278,7 @@ $progress = number_format((($j_sangat + $j_bahaya ) / $j_total_hakim) * 100, 2);
 						<thead>
 							<tr>
 								<th width="35%">Ketua Majelis</th>
-								<th width="10%">Kinerja Hakim</th>
+								<th width="10%">% Perk. Putus</th>
 								<th width="10%">Kurang dari 4 Bln</th>
 								<th width="10%">Perkara 4-5 Bln</th>
 								<th width="10%">Perkara 6-12 Bln</th>
