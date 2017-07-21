@@ -111,6 +111,8 @@ class Perkara extends CI_Controller {
 	public function selesai_hakim_detail($id,$filter){
 
 		$data = $this->perkara->get_selesai_hakim_detail($id,$filter);
+        $nama_hakim = $this->perkara->get_nama_hakim($id);
+
 
 		switch($filter) {
 			case 'baik' :
@@ -143,6 +145,7 @@ class Perkara extends CI_Controller {
 
 		$data['html_table'] = $this->table->generate();
 		$data['text_filter'] = $text_filter;
+		$data['text_nama'] = $nama_hakim;
 		$a['content']	= $this->load->view('simple_table', $data, true);
 		$this->load->view('template', $a);
 	}
