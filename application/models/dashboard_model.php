@@ -9,7 +9,7 @@ class Dashboard_model extends CI_Model {
 	function fetch_upcoming_delegasi_keluar(){		
 			
 		$sql = "SELECT * FROM delegasi_keluar dk
-                WHERE  tgl_sidang + 1 > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
+                WHERE  tgl_sidang + 1 > NOW() AND tgl_sidang < DATE_ADD( NOW(),INTERVAL 7 DAY) ";
 		#	echo "<pre>$sql</pre>";
 		return $this->db->query($sql)->result_array();				
 	}
@@ -18,7 +18,7 @@ class Dashboard_model extends CI_Model {
 			
 		$sql = "SELECT * FROM delegasi_masuk dm LEFT OUTER JOIN delegasi_proses_masuk dpm
                 ON  dpm.`delegasi_id`=dm.`id`
-                WHERE tgl_sidang > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
+                WHERE  tgl_sidang + 1 > NOW() AND tgl_sidang < DATE_ADD( NOW(),INTERVAL 7 DAY)";
 		#	echo "<pre>$sql</pre>";
 		return $this->db->query($sql)->result_array();				
 	}
