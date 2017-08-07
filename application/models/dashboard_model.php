@@ -8,18 +8,17 @@ class Dashboard_model extends CI_Model {
 	
 	function fetch_upcoming_delegasi_keluar(){		
 			
-		$sql = "SELECT * FROM delegasi_keluar dk, delegasi_proses_keluar dpk
-                WHERE  dpk.`delegasi_id`=dk.`id`
-                AND tgl_sidang > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
+		$sql = "SELECT * FROM delegasi_keluar dk
+                WHERE  tgl_sidang + 1 > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
 		#	echo "<pre>$sql</pre>";
 		return $this->db->query($sql)->result_array();				
 	}
 	
 	function fetch_upcoming_delegasi_masuk(){		
 			
-		$sql = "SELECT * FROM delegasi_masuk dm, delegasi_proses_masuk dpm
-                WHERE  dpm.`delegasi_id`=dm.`id`
-                AND tgl_sidang > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
+		$sql = "SELECT * FROM delegasi_masuk dm LEFT OUTER JOIN delegasi_proses_masuk dpm
+                ON  dpm.`delegasi_id`=dm.`id`
+                WHERE tgl_sidang > NOW() AND tgl_sidang - 7 < NOW() ORDER BY tgl_sidang ASC ";
 		#	echo "<pre>$sql</pre>";
 		return $this->db->query($sql)->result_array();				
 	}
