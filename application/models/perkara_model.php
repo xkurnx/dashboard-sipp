@@ -75,13 +75,13 @@ ORDER BY ket ASC";
 
 	function get_selesai_hakim(){
 			$query = $this->db->query("SELECT * FROM ( SELECT  nama ketua,id,
-					SUM(CASE WHEN YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)< 120 THEN 1 ELSE 0 END) baik,
+					SUM(CASE WHEN YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)< 120 THEN 1 ELSE 0 END) baik,
 					SUM(CASE WHEN tanggal_putusan IS NULL AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)< 120 THEN 1 ELSE 0 END) sisa_baik,
-					SUM(CASE WHEN YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)>= 120 AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)< 180 THEN 1 ELSE 0 END) kurang,
+					SUM(CASE WHEN YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)>= 120 AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)< 180 THEN 1 ELSE 0 END) kurang,
 					SUM(CASE WHEN tanggal_putusan IS NULL AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)>= 120 AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)< 180 THEN 1 ELSE 0 END) sisa_kurang,
-					SUM(CASE WHEN YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)>= 180 AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)<= 360 THEN 1 ELSE 0 END) sangat,
+					SUM(CASE WHEN YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)>= 180 AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)<= 360 THEN 1 ELSE 0 END) sangat,
 					SUM(CASE WHEN tanggal_putusan IS NULL AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)>= 180 AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)<= 360 THEN 1 ELSE 0 END) sisa_sangat,
-					SUM(CASE WHEN YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)> 360 THEN 1 ELSE 0 END) bahaya,
+					SUM(CASE WHEN YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)> 360 THEN 1 ELSE 0 END) bahaya,
 					SUM(CASE WHEN tanggal_putusan IS NULL AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)> 360 THEN 1 ELSE 0 END) sisa_bahaya
 					FROM
 					(
@@ -175,7 +175,7 @@ ORDER BY ket ASC";
 
 
 
-		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text, a.proses_terakhir_id, a.diperbaharui_oleh, a.diperbaharui_tanggal
+		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text, a.proses_terakhir_id, a.diperbaharui_oleh, DATE_FORMAT(a.diperbaharui_tanggal,'%d-%m-%Y %H:%i:%s')diperbaharui_tanggal
 									FROM v_perkara a LEFT JOIN hakim_pn b
 									ON (SUBSTRING_INDEX(majelis_hakim_id, ',', 1) = b.`id`)
 									WHERE 1=1 ".$sql_filter;
@@ -218,16 +218,16 @@ ORDER BY ket ASC";
 	function get_selesai_hakim_detail($id,$filter){
 		switch($filter) {
 			case 'baik' :
-				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)< 120';
+				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)< 120';
 			break;
 			case 'kurang' :
-				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)>= 120 AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)< 180';
+				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)>= 120 AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)< 180';
 			break;
 			case 'sangat' :
-				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)>= 180 AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)<= 360';
+				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)>= 180 AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)<= 360';
 			break;
 			case 'bahaya' :
-				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(CURRENT_DATE,tanggal_pendaftaran)> 360';
+				$sql_filter = 'and YEAR(tanggal_putusan)=YEAR(NOW()) AND DATEDIFF(tanggal_putusan,tanggal_pendaftaran)> 360';
 			break;
 			default:
 				$sql_filter = '';
@@ -235,7 +235,7 @@ ORDER BY ket ASC";
 		}
 		#echo $sql_filter;
 
-		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text, a.proses_terakhir_id, a.diperbaharui_oleh, a.diperbaharui_tanggal
+		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text, a.proses_terakhir_id, a.diperbaharui_oleh, DATE_FORMAT(a.diperbaharui_tanggal,'%d-%m-%Y %H:%i:%s')diperbaharui_tanggal
 									FROM v_perkara a LEFT JOIN hakim_pn b
 									ON (SUBSTRING_INDEX(majelis_hakim_id, ',', 1) = b.`id`)
 									WHERE 1=1

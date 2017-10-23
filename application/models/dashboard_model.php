@@ -200,10 +200,14 @@ ORDER BY ket ASC";
 	
         function get_data_ikrar()
     	{
-    		$sql = "SELECT DISTINCT * FROM perkara AS a LEFT JOIN perkara_ikrar_talak AS b ON a.`perkara_id`=b.`perkara_id`
-    LEFT JOIN perkara_putusan AS c ON a.`perkara_id`=c.`perkara_id` join perkara_hakim_pn as d on a.`perkara_id`=d.`perkara_id`
-    WHERE a.jenis_perkara_id='346' AND YEAR(a.tanggal_pendaftaran)=YEAR(NOW()) c.status_putusan_id=62
-    and b.`penetapan_majelis_hakim` is NULL  AND c.tanggal_bht IS NOT NULL and jabatan_hakim_id=1 and d.`aktif`='Y'";
+    		$sql = "SELECT DISTINCT a.nomor_perkara,d.hakim_nama,DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran,
+DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan,DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,
+DATE_FORMAT(tanggal_bht,'%d-%m-%Y') tanggal_bht,
+DATE_FORMAT(penetapan_majelis_hakim,'%d-%m-%Y') tgl_ikrar_talak, proses_terakhir_text 
+FROM perkara AS a LEFT JOIN perkara_ikrar_talak AS b ON a.`perkara_id`=b.`perkara_id`
+LEFT JOIN perkara_putusan AS c ON a.`perkara_id`=c.`perkara_id` JOIN perkara_hakim_pn AS d ON a.`perkara_id`=d.`perkara_id`
+WHERE a.jenis_perkara_id='346' AND YEAR(a.tanggal_pendaftaran)=YEAR(NOW()) AND c.status_putusan_id=62
+AND b.`penetapan_majelis_hakim` IS NULL  AND c.tanggal_bht IS NOT NULL AND jabatan_hakim_id=1 AND d.`aktif`='Y'";
 
     		$query = $this->db->query($sql);
     		return $query->result_array();
