@@ -6,11 +6,29 @@ kisaran 10-02-2017
 $body = $("body");
 
 $(document).on({
-    ajaxStart: function() { $body.addClass("loading");    },
-     ajaxStop: function() { $body.removeClass("loading"); }    
+	ajaxStart: function() { $body.addClass("loading");    },
+    ajaxStop: function() { $body.removeClass("loading"); }    
 });
 
 $(document).ready(function(){
+	
+	setInterval('location.reload()',120000);
+
+	
+	/** News Ticker **/
+	
+
+	 $('.nTicker1').newsTicker({
+		row_height: 24,
+		max_rows: 2,
+		duration: 4000,
+	});
+
+	 $('.nTicker2').newsTicker({
+		row_height: 24,
+		max_rows: 2,
+		duration: 3000,
+	});
 	
 	/*** to handle urtug form 
 	add,save, and edit by AJAX

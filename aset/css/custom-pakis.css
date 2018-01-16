@@ -109,3 +109,68 @@ body.loading .modal {
     display: block;
 }
 
+/* TV */
+
+body.tv{
+		font-size:16px;
+}	
+
+
+body.tv .navbar-nav{
+	display:none;
+}
+.tv .container{
+	max-width:1400px;
+}
+
+.tv h2.title{
+	color:#fff;
+	margin-top:5px;
+}
+
+.tv .carousel{
+	/* border:1px solid red; */
+	display: block;
+	height:auto;	 
+}	
+
+/* span float left */
+.tv .w10{
+	float:left;
+	width:10%;
+}	
+
+.tv .w20{
+	float:left;
+	width:20%;
+}	
+
+.tv .w30{
+	float:left;
+	width:30%;
+}	
+
+.tv .w40{
+	float:left;
+	width:40%;
+}
+
+.tv .w50{
+	float:left;
+	width:50%;
+}
+
+ul.nTicker {
+	list-style-type:none;
+	display:block;
+	padding:0px;
+	margin:0px;
+	clear:both;
+}	
+
+ul.nTicker li{
+	margin-left:0px;
+	padding-left:0px;
+	clear:both;
+}	
+
