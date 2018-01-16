@@ -26,6 +26,8 @@ class Tv extends CI_Controller {
 		$data['delegasi_masuk'] = $this->dashboard->fetch_upcoming_delegasi_masuk();
 		$data['jadwal_sidang_1'] = $this->dashboard->jadwal_sidang(1);
 		$data['jadwal_sidang_2'] = $this->dashboard->jadwal_sidang(2);
+		$data['rekap_jenis_perkara'] = $this->dashboard->rekap_jenis_perkara();
+		$data['sys_info'] = $this->dashboard->sys_info();
         $a['namaPN'] = $this->session->userdata('namaPN');
 		$a['content']	= $this->load->view('v_dashboard_tv', $data, true);	
 		$a['style']="tv";

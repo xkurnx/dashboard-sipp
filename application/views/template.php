@@ -105,7 +105,7 @@
         </div>
 		
         <div class="navbar-collapse collapse" id="navbar-main">
-		<?php echo (isset($style) == "tv" ? "<h2 class='title'>Dashboard SIPP</h2>":""); ?>
+		<?php echo (isset($style) == "tv" ? "<h2 class='title'><i class='fa fa-tachometer'></i> Dashboard SIPP</h2>":""); ?>
           <ul class="nav navbar-nav">	
 			<li><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="icon-home icon-white"> </i> Beranda</a></li>
         <li><a href="<?php echo base_url(); ?>index.php/perkara"><i class="ion-clock icon-white"> </i> Penanganan Perkara</a></li>
