@@ -58,7 +58,7 @@ class Dashboard_model extends CI_Model {
 			ORDER BY (sisa+terima+putus) DESC";
 		return $this->db->query($sql)->result_array();	
 	}
-	
+	 
 	
 	function sys_info ()
 	{

@@ -302,15 +302,11 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 					 <i class="fa fa-info-circle"></i> Informasi Sistem</h3>
 					 <div class="clearfix"></div>
 					 </div>
-					<div class="panel-body">
-					
-						
+					<div class="panel-body">					
 					<ul  class="nTicker">
 							<?php
 							foreach ( $sys_info as $row ):
-							?>
-							
-							
+							?>	
 							<li>
 								<span class="w50"><?php echo $row['ket'];?></span>
 								<span class="w30"><?php echo $row['val'];?></span>

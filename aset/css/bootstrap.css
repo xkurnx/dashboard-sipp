@@ -5689,7 +5689,7 @@ a.list-group-item:focus {
 
 .panel-green > .panel-footer + .panel-collapse .panel-body {
   border-bottom-color: #d6e9c6;
-}
+} 
 
 .panel-warning {
   border-color: #fbeed5;
