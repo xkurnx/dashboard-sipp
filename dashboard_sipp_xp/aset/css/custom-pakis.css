@@ -1,0 +1,111 @@
+/**** 
+overriding existing bootstrap styles 
+Kisaran 18-01-2017 
+****/
+
+.loginBox{
+		width: 340px;
+		background-color: #1ea167;
+		border-radius: 5px;
+		padding: 20px;
+		background-image: -webkit-linear-gradient(90deg, #168d59, #1ea167);
+		width: 340px;
+		color:#fff;
+		margin-left: -170px;
+		box-shadow: 2px 2px 0px rgba(255, 255, 255, 0.2) inset, 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+
+.loginBox .table-form{
+	background-color:inherit;
+}
+
+.loginBox strong{
+	font-size:16px;
+	color:#fff;
+	text-align:center;
+}
+
+.navbar-fixed-top{
+	z-index:10;
+}
+.navbar{
+		border-radius:0px;
+}
+
+.navbar-inverse{
+	background-color:#008C4B;
+	
+}
+
+.btn-info {
+	background-color:#008C4B;
+}
+
+.panel-heading{
+	border-top-right-radius:0px;
+	border-top-left-radius:0px;	
+}
+
+.panel-group .panel{
+	border-radius:0px;
+	
+}
+
+.table-bordered > thead > tr > th{
+	background-color:#008C4B;
+	color:#fff;
+	vertical-align:middle;
+}
+
+.panel-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 75%;
+    padding-top: 8px;
+}
+
+.paddingBottom50{
+	padding-bottom:50px;	
+}
+
+#footer{
+	position: fixed;
+	color:#fff;
+	text-align:center;
+	left: 0px;
+	bottom: 0px;
+	height: 25px;
+	width: 100%;
+	background-color: #007640;
+	z-index: 9999;
+	border-top: 1px solid #006A14;
+	
+}
+
+.loading {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('http://i.stack.imgur.com/FhHRx.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/*** loading ****/
+
+body.loading {
+    overflow: hidden;   
+}
+
+
+body.loading .modal {
+    display: block;
+}
+

@@ -27,6 +27,7 @@
 	</style>
     <link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/bootstrap.css" media="screen">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/ionicons.min.css" media="screen">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/font-awesome.min.css" media="screen">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/adminLTE.css" media="screen">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>aset/css/custom-pakis.css" media="screen">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -40,7 +41,9 @@
     <script src="<?php echo base_url(); ?>aset/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>aset/js/bootswatch.js"></script>
 	<script src="<?php echo base_url(); ?>aset/js/jquery/jquery-ui.js"></script>
+	<script src="<?php echo base_url(); ?>aset/js/jquery.newsTicker.min.js"></script>
 	<script src="<?php echo base_url(); ?>aset/js/scripts.js"></script>
+	jquery.newsTicker.min
 	<script type="text/javascript">
 	var base_url = "<?php echo base_url(); ?>";
 	// <![CDATA[
@@ -90,7 +93,7 @@
 	</script>
 	</head>
 	
-  <body style="">
+  <body class="<?php echo (isset($style) ? $style:""); ?>">
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -102,6 +105,7 @@
         </div>
 		
         <div class="navbar-collapse collapse" id="navbar-main">
+		<?php echo (isset($style) == "tv" ? "<h2 class='title'>Dashboard SIPP</h2>":""); ?>
           <ul class="nav navbar-nav">	
 			<li><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="icon-home icon-white"> </i> Beranda</a></li>
         <li><a href="<?php echo base_url(); ?>index.php/perkara"><i class="ion-clock icon-white"> </i> Penanganan Perkara</a></li>
@@ -119,7 +123,7 @@
     </div>
 
 	
-    <div class="container  paddingBottom50" style="padding-top:80px">
+    <div class="container  paddingBottom50" style="padding-top:60px">
 
      
 
@@ -133,7 +137,10 @@
         <?php
         echo $this->session->userdata('namaPN');
         ?>
-        <span class=""> - dikembangkan oleh TIM SATGAS PTA Medan</span>
+        <?php if (!isset($style)) :
+		?>
+		<span class=""> - dikembangkan oleh TIM SATGAS PTA Medan</span>
+		<?php endif;?>
     </div>
 	</div>
 	<div class="loading"></div>

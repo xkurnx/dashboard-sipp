@@ -12,6 +12,22 @@ $(document).on({
 
 $(document).ready(function(){
 	
+	
+	/** News Ticker **/
+	
+
+ $('.nTicker1').newsTicker({
+    row_height: 24,
+    max_rows: 2,
+    duration: 4000,
+});
+
+ $('.nTicker2').newsTicker({
+    row_height: 24,
+    max_rows: 2,
+    duration: 3000,
+});
+	
 	/*** to handle urtug form 
 	add,save, and edit by AJAX
 	***/
