@@ -83,9 +83,9 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 	<div class="row">
 			<div class="col-lg-6">
 				<div class="panel-group">
-				<div class="panel panel-warning">
+				<div class="panel panel-primary">
 					<div class="panel-heading">
-					  <i class="fa fa-sign-in"></i> Delegasi Masuk (Sidang hari ini s.d 21 hari kedepan)
+					  <i class="fa fa-envelope"></i> Delegasi Masuk (Sidang hari ini s.d 21 hari kedepan)
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">
@@ -127,7 +127,7 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 				<div class="panel-group">
 				<div class="panel panel-primary">
 					<div class="panel-heading">					
-					 <i class="fa fa-sign-out"></i> Delegasi Keluar (Sidang hari ini s.d 21 hari kedepan)
+					 <i class="fa fa-envelope"></i> Delegasi Keluar (Sidang hari ini s.d 21 hari kedepan)
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">
@@ -172,7 +172,7 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 	<div class="row">
 			<div class="col-lg-6">
 				<div class="panel-group">
-				<div class="panel panel-success">
+				<div class="panel panel-green">
 					<div class="panel-heading">
 					 <i class="fa fa-building"></i> Ruang Sidang I
 					 <div class="clearfix"></div>
@@ -212,7 +212,7 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 			
 			<div class="col-lg-6">
 				<div class="panel-group">
-				<div class="panel panel-success">
+				<div class="panel panel-green">
 					<div class="panel-heading">
 					 <i class="fa fa-building"></i> Ruang Sidang II</h3>
 					 <div class="clearfix"></div>
@@ -239,6 +239,81 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 								<span class="w20"><?php echo $no_perk;?></span>
 								<span class="w50"><?php echo $row['pihak1_text'];?></span>
 								<span class="w30"><?php echo $row['agenda'];?></span>
+							</li>
+							<?php
+							endforeach;
+							?>
+					</ul>
+				
+					</div>
+				</div>		
+				</div>
+			</div>	
+	</div>
+	
+	
+	<br />
+	
+	<div class="row">
+			<div class="col-lg-6">
+				<div class="panel-group">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+					 <i class="fa fa-line-chart"></i> Rekap Per Jenis Perkara
+					 <div class="clearfix"></div>
+					 </div>
+					<div class="panel-body">
+					
+					<div style="">
+						<span class="w40"><strong>Jenis Perkara</strong></span>
+						<span class="w20"><strong>Sisa</strong></span>
+						<span class="w20"><strong>Terima</strong></span>
+						<span class="w20"><strong>Putus</strong></span>
+					</div>
+					
+					
+					<ul  class="nTicker nTicker1">
+							<?php
+							foreach ( $rekap_jenis_perkara as $row ):
+							?>
+							
+							
+							<li>
+								<span class="w40"><?php echo $row['jenis_perkara_text'];?></span>
+								<span class="w20"><?php echo $row['sisa'];?></span>
+								<span class="w20"><?php echo $row['terima'];?></span>
+								<span class="w20"><?php echo $row['putus'];?></span>
+							</li>
+							<?php
+							endforeach;
+							?>
+					</ul>
+					
+				
+					</div>
+				</div>		
+				</div>
+			</div>	
+			
+			<div class="col-lg-6">
+				<div class="panel-group">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+					 <i class="fa fa-info-circle"></i> Informasi Sistem</h3>
+					 <div class="clearfix"></div>
+					 </div>
+					<div class="panel-body">
+					
+						
+					<ul  class="nTicker">
+							<?php
+							foreach ( $sys_info as $row ):
+							?>
+							
+							
+							<li>
+								<span class="w50"><?php echo $row['ket'];?></span>
+								<span class="w30"><?php echo $row['val'];?></span>
 							</li>
 							<?php
 							endforeach;

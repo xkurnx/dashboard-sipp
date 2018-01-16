@@ -32,6 +32,9 @@ class Dashboard_model extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
+	
+	/*** Ticker *******/
+	
 	function jadwal_sidang($ruang){
 			$sql = "SELECT nomor_perkara,left(pihak1_text,40) pihak1_text,agenda FROM perkara p, perkara_jadwal_sidang pjs
 			WHERE p.`perkara_id`=pjs.`perkara_id`
@@ -40,6 +43,35 @@ class Dashboard_model extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	
 	}	
+	
+	
+	function rekap_jenis_perkara ()
+	{
+		$sql = "SELECT * FROM (
+			SELECT jenis_perkara_text,
+			SUM(CASE WHEN ( YEAR(tanggal_minutasi)=YEAR(NOW()) OR  tanggal_minutasi IS NULL) THEN 1 ELSE 0 END) sisa,
+			SUM(CASE WHEN ( YEAR(tanggal_pendaftaran)=YEAR(NOW())) THEN 1 ELSE 0 END) terima,
+			SUM(CASE WHEN ( YEAR(tanggal_putusan)=YEAR(NOW())) THEN 1 ELSE 0 END) putus
+			FROM v_perkara WHERE YEAR(tanggal_pendaftaran)>2015
+			GROUP BY jenis_perkara_text
+			) a
+			ORDER BY (sisa+terima+putus) DESC";
+		return $this->db->query($sql)->result_array();	
+	}
+	
+	
+	function sys_info ()
+	{
+		$sql= "SELECT 'Versi SIPP Terpasang' ket, patch_ver val FROM updates WHERE id = (SELECT MAX(id) FROM updates)
+				UNION
+				SELECT 'User Online ', COUNT(1) val FROM sys_user_online a,sys_users b WHERE a.`userid`=b.`userid`
+				AND HOUR(TIMEDIFF(NOW(),last_login)) < 2
+				UNION
+				SELECT 'Backup Terakhir', CONCAT(MIN(DATEDIFF(NOW(),timestamp_backup)),' hari yang lalu') FROM sys_backup
+				";
+		return $this->db->query($sql)->result_array();	
+	}
+	
 	
 	function fetch_rekap_stat_perkara(){
 		$sql = "SELECT * FROM
