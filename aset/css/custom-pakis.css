@@ -194,3 +194,8 @@ ul.nTicker li{
 		padding:10px;
 		background:#b3f2c8;
 }	
+
+/***** AC ****/
+#camArea{
+	display:none;
+}

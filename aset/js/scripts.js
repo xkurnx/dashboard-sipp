@@ -307,6 +307,131 @@ $(document).ready(function(){
 	showLoading = function(){ $('.loading').show();	}
 	hideLoading = function(){ $('.loading').hide();	}
 	
+	
+	/*************** Cek Akta Cerai *******/
+	
+	ac_cek_data = function(){
+		var no_perk = addLeadingZeros($('input[name=no_perk]').val(),4);
+		if ( $('input[name=no_perk]').val() == '' )
+		{
+			alert('Silahkan Masukkan Nomor Perkara');
+			return false;
+		}
+		var no_perk_tahun = $('select[name=no_perk_tahun]').val();
+		url = base_url + 'index.php/tt_ac/cek/' + no_perk+ 'G' + no_perk_tahun.substr(2,2);
+		location.href = url;			
+	}
+	
+	addLeadingZeros = function  (n, length)
+	{
+		var str = (n > 0 ? n : -n) + "";
+		var zeros = "";
+		for (var i = length - str.length; i > 0; i--)
+			zeros += "0";
+		zeros += str;
+		return n >= 0 ? zeros : "-" + zeros;
+	}
+
+	
+	TakePhoto = function() {
+		Webcam.snap(function(data_uri) {
+			innerHTML = '<img id="base64image" src="'+data_uri+'"/>';
+			$('#results').show().html(innerHTML);
+			$('.frmAC #preview_camera').hide();
+			
+			$('.frmAC #btnResetPhoto').show();
+			$('.frmAC #btnSaveData').show();
+			$('.frmAC #btnTakePhoto').hide();
+		});
+	}
+	
+	ResetPhoto =  function() {
+		$('.frmAC #preview_camera').show();
+		$('.frmAC #results').hide();
+		
+		$('.frmAC #btnTakePhoto').show();
+		$('.frmAC #btnSaveData').hide();
+		$('.frmAC #btnResetPhoto').hide();
+	}
+	
+	ShowCam = function (){
+	Webcam.set({
+				// live preview size
+				width: 320,
+				height: 240,
+				
+				// device capture size
+				dest_width: 320,
+				dest_height: 240,
+				
+				// final cropped size
+				crop_width: 160,
+				crop_height: 240,
+				
+				// format and quality
+				image_format: 'jpeg',
+				jpeg_quality: 90
+		});
+		Webcam.attach('#preview_camera');
+	}
+
+	
+	SaveData  = function (){
+		urlAjax = base_url + 'index.php/tt_ac/save';
+		$('#loading').html("Saving, please wait...");
+		var file =  document.getElementById("base64image").src;
+		var formdata = new FormData();
+		formdata.append("base64image", file);
+		formdata.append("nomor_perkara", $('input[name=nomor_perkara]').val());
+		formdata.append("nama_pihak", $('select[name=ac_pihak_pengambil]').val());
+		formdata.append("nama_pemohon", $('input[name=ac_nama_pemohon]').val());
+		formdata.append("alamat_pemohon", $('input[name=ac_alamat_pemohon]').val());
+		formdata.append("telp_pemohon", $('input[name=ac_telp_email]').val());
+		$.ajax({
+			url: urlAjax, 
+			dataType: 'json',  
+			cache: false,
+			contentType: false,
+			processData: false,
+			data: formdata,                         
+			type: 'post',
+			success: function(res){
+				id_req = res.id_req; 
+				$('.frmAC #btnSaveData').hide();
+			$('.frmAC #downloadLink').html('<a href="'+base_url + 'index.php/tt_ac/print/'+id_req+'">Download Tanda Terima</a>');
+			}
+		});
+		/***
+		var ajax = new XMLHttpRequest();
+		ajax.addEventListener("load", function(event) { uploadcomplete(event);}, false);
+		ajax.open("POST", urlAjax);
+		ajax.send(formdata);
+		**/
+	}
+	
+	uploadcomplete = function (event){
+    document.getElementById("loading").innerHTML="";
+    var image_return=event.target.responseText;
+    var showup=document.getElementById("uploaded").src=image_return;
+}
+
+
+  $('select[name=ac_pihak_pengambil]').on('change',function(){
+	   //alert(this.value);
+		if ( this.value != '' )
+		{
+			$('#camArea').show();
+			ShowCam();
+			$('.frmAC #btnResetPhoto').hide();
+			$('.frmAC #btnSaveData').hide();
+			$('input[name=ac_nama_pemohon]').val(this.value);
+		}	
+	   
+  })
+  
+  
+	
+	
 		
 })
 
