@@ -299,7 +299,7 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 				<div class="panel-group">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-					 <i class="fa fa-info-circle"></i> Informasi Sistem</h3>
+					 <i class="fa fa-info-circle"></i> <a onclick="toggleFullScreen()">Informasi Sistem </a></h3>
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">					

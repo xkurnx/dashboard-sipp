@@ -174,3 +174,23 @@ ul.nTicker li{
 	clear:both;
 }	
 
+.pstyle1{
+	background:url(../img/bg1.png) no-repeat bottom right;
+}
+
+.pstyle2{
+	background:url(../img/bg2.png) no-repeat bottom right;
+}
+
+.pstyle3{
+	background:url(../img/bg3.png) no-repeat bottom right;
+}
+
+.bgTatib{
+	backgroundd:red;
+}
+	
+.NTBawah{
+		padding:10px;
+		background:#b3f2c8;
+}	

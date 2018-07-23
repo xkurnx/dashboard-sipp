@@ -43,11 +43,42 @@
 	<script src="<?php echo base_url(); ?>aset/js/jquery/jquery-ui.js"></script>
 	<script src="<?php echo base_url(); ?>aset/js/jquery.newsTicker.min.js"></script>
 	<script src="<?php echo base_url(); ?>aset/js/scripts.js"></script>
+	<script type="text/javascript" src="//player.wowza.com/player/latest/wowzaplayer.min.js"></script> 
+			
+	<script language="JavaScript">
+	function toggleFullScreen() {
+	  if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
+	   (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+		
+		   
+		if (document.documentElement.requestFullScreen) { 
+			document.getElementById("playerElement").requestFullscreen();		
+		  document.documentElement.requestFullScreen();  
+		} else if (document.documentElement.mozRequestFullScreen) {  
+		  document.documentElement.mozRequestFullScreen();  
+		} else if (document.documentElement.webkitRequestFullScreen) {  
+		  document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+		}  
+	  } else {  
+		if (document.cancelFullScreen) {  
+		  document.cancelFullScreen();  
+		} else if (document.mozCancelFullScreen) {  
+		  document.mozCancelFullScreen();  
+		} else if (document.webkitCancelFullScreen) {  
+		  document.webkitCancelFullScreen();  
+		}  
+	  }  
+	}
+</script>
+	
 	jquery.newsTicker.min
 	<script type="text/javascript">
 	var base_url = "<?php echo base_url(); ?>";
 	// <![CDATA[
 	$(document).ready(function () {
+		
+		setInterval('location.reload()',120000);
+		
 		$(function () {
 			$( "#kode_surat" ).autocomplete({
 				source: function(request, response) {
@@ -94,6 +125,7 @@
 	</head>
 	
   <body class="<?php echo (isset($style) ? $style:""); ?>">
+  
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">

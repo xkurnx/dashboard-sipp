@@ -34,6 +34,18 @@ class Tv extends CI_Controller {
 		$this->load->view('template', $a);	
 	}
 	
+	public function pengunjung(){
+		$a['style']="tv";
+		$data['jadwal_sidang_1'] = $this->dashboard->jadwal_sidang(1);
+		$data['jadwal_sidang_2'] = $this->dashboard->jadwal_sidang(2);
+		$data['rekap_jenis_perkara'] = $this->dashboard->rekap_jenis_perkara();	
+		$a['namaPN'] = $this->session->userdata('namaPN');
+		$a['content'] = $this->load->view('v_tv_pengunjung', $data, true);	
+		$a['style']="tv";		
+		$this->load->view('template_tv', $a);	
+		
+	}	
+	
 	public function progress_hakim_detail($id,$filter){
 		
 		$data = $this->dashboard->get_progress_hakim_detail($id,$filter);

@@ -62,7 +62,7 @@ class Dashboard_model extends CI_Model {
 	
 	function sys_info ()
 	{
-		$sql= "SELECT 'Versi SIPP Terpasang' ket, patch_ver val FROM updates WHERE id = (SELECT MAX(id) FROM updates)
+		$sql= "SELECT 'Versi SIPP Terpasang' ket, value val FROM sys_config WHERE name='app_version'
 				UNION
 				SELECT 'User Online ', COUNT(1) val FROM sys_user_online a,sys_users b WHERE a.`userid`=b.`userid`
 				AND HOUR(TIMEDIFF(NOW(),last_login)) < 2
@@ -243,7 +243,9 @@ ORDER BY ket ASC";
     		$sql = "SELECT DISTINCT * FROM perkara AS a LEFT JOIN perkara_ikrar_talak AS b ON a.`perkara_id`=b.`perkara_id`
     LEFT JOIN perkara_putusan AS c ON a.`perkara_id`=c.`perkara_id` join perkara_hakim_pn as d on a.`perkara_id`=d.`perkara_id`
     WHERE a.jenis_perkara_id='346' AND YEAR(a.tanggal_pendaftaran)=YEAR(NOW()) and c.status_putusan_id=62
-    and b.`penetapan_majelis_hakim` is NULL  AND c.tanggal_bht IS NOT NULL and jabatan_hakim_id=1 and d.`aktif`='Y'";
+    and b.`penetapan_majelis_hakim` is NULL  
+	/* AND c.tanggal_bht IS NOT NULL */
+	and jabatan_hakim_id=1 and d.`aktif`='Y'";
 
     		$query = $this->db->query($sql);
     		return $query->result_array();
