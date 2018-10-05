@@ -51,7 +51,14 @@
 	<div class="col-md-9">	
 	<table class="table-form">
 	<form id="formReq">
+	<input type="hidden" name="perkara_id" value="<?php echo $info_perkara->perkara_id;?>">
 	<input type="hidden" name="nomor_perkara" value="<?php echo $nomor_perkara;?>">
+	<input type="hidden" name="nama_pihak1" value="<?php echo $info_perkara->pihak1_text;?>">
+	<input type="hidden" name="nama_pihak2" value="<?php echo $info_perkara->pihak2_text;?>">
+	<tr>
+			<td style="width:20%">Nomor Akta Cerai</td>
+			<td><input class="form-control" name='nomor_akta_cerai' class="nomor_akta_cerai" value="<?php echo $info_perkara->nomor_akta_cerai;?>"></td>
+		</tr>
 		<tr>
 			<td style="width:20%">Silahkan Pilih Para Pihak</td>
 			<td><select class="form-control" name="ac_pihak_pengambil">

@@ -7,12 +7,21 @@ class Ac_model extends CI_Model {
 	/* Penanganan Perkara */
 	function get_info_perkara($nomor_perkara){
 		
-		$sql = "SELECT tanggal_pendaftaran, pihak1_text, pihak2_text,tanggal_putusan, tanggal_minutasi, amar_putusan
-				FROM v_perkara WHERE TRIM(LEADING '0' FROM nomor_perkara) = TRIM(LEADING '0' FROM '".$nomor_perkara."')";
+		$sql = "SELECT nomor_akta_cerai,a.perkara_id,tanggal_pendaftaran, pihak1_text, pihak2_text,tanggal_putusan, tanggal_minutasi, amar_putusan
+				FROM v_perkara a left outer join perkara_akta_cerai b 
+				on (a.perkara_id=b.perkara_id)
+				WHERE TRIM(LEADING '0' FROM nomor_perkara) = TRIM(LEADING '0' FROM '".$nomor_perkara."')";
 		#echo $sql;		
 				
 		return $this->db->query($sql)->row();
-	}	
+	}
+
+	function get_data_req($id){
+		
+		$sql = "SELECT a.*, DATE_FORMAT(date_req,'%d - %m - %Y') date_req_short from permintaan_ac.req_ac a where id=$id";
+				
+		return $this->db->query($sql)->row();
+	}		
 
 	function fetch_rekap_sidang(){
 		$sql = "SELECT SUM(1) s_hari_ini,

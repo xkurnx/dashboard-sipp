@@ -382,8 +382,12 @@ $(document).ready(function(){
 		var file =  document.getElementById("base64image").src;
 		var formdata = new FormData();
 		formdata.append("base64image", file);
+		formdata.append("perkara_id", $('input[name=perkara_id]').val());
 		formdata.append("nomor_perkara", $('input[name=nomor_perkara]').val());
-		formdata.append("nama_pihak", $('select[name=ac_pihak_pengambil]').val());
+		formdata.append("nomor_akta_cerai", $('input[name=nomor_akta_cerai]').val());
+		formdata.append("nama_pihak_pengambil", $('select[name=ac_pihak_pengambil]').val());
+		formdata.append("nama_pihak1", $('input[name=nama_pihak1]').val());
+		formdata.append("nama_pihak2", $('input[name=nama_pihak2]').val());
 		formdata.append("nama_pemohon", $('input[name=ac_nama_pemohon]').val());
 		formdata.append("alamat_pemohon", $('input[name=ac_alamat_pemohon]').val());
 		formdata.append("telp_pemohon", $('input[name=ac_telp_email]').val());
@@ -398,7 +402,7 @@ $(document).ready(function(){
 			success: function(res){
 				id_req = res.id_req; 
 				$('.frmAC #btnSaveData').hide();
-			$('.frmAC #downloadLink').html('<a href="'+base_url + 'index.php/tt_ac/print/'+id_req+'">Download Tanda Terima</a>');
+			$('.frmAC #downloadLink').html('<a href="'+base_url + 'index.php/tt_ac/print_tt/'+id_req+'">Cetak Tanda Terima</a>');
 			}
 		});
 		/***
