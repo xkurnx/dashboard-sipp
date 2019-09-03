@@ -17,7 +17,7 @@ class Tv extends CI_Controller {
 	}
 	
 	
-	public function index(){
+	public function index	(){
 		$a['style']="tv";
 		$data['jadwal_sidang_1'] = $this->dashboard->jadwal_sidang(1);
 		$data['jadwal_sidang_2'] = $this->dashboard->jadwal_sidang(2);

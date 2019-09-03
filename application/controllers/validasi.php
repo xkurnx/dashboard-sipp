@@ -41,6 +41,14 @@ class Validasi extends CI_Controller {
 		$a['content']	= $this->load->view('simple_table', $data, true);
 		$this->load->view('template', $a);
 	}
+	
+	function ping(){
+			$siteaddressAPI = "http://tv.pa-stabat.go.id/check.php";
+			$data = file_get_contents($siteaddressAPI);
+			header('Content-Type: application/json');
+			echo json_encode($data);
+
+	}
 
 
 
