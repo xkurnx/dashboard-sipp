@@ -1,11 +1,11 @@
-<?php
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+<?phpheader("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <head>
-	<title>.:: Dashboard SIPP ::.</title>
+	<title> Pengadilan Agama Stabat </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
 	<style type="text/css">
@@ -46,12 +46,11 @@ header("Pragma: no-cache");
     <script src="<?php echo base_url(); ?>aset/js/bootswatch.js"></script>
 	<script src="<?php echo base_url(); ?>aset/js/jquery/jquery-ui.js"></script>
 	<script src="<?php echo base_url(); ?>aset/js/jquery.newsTicker.min.js"></script>
-	<script src="<?php echo base_url(); ?>aset/js/wc.min.js"></script>
 	<script src="<?php echo base_url(); ?>aset/js/scripts.js"></script>
-	<script type="text/javascript" src="//player.wowza.com/player/latest/wowzaplayer.min.js"></script> 
 			
 	<script language="JavaScript">
-	function toggleFullScreen() {
+	function toggleFullScreen() { 
+	//alert(1);
 	  if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
 	   (!document.mozFullScreen && !document.webkitIsFullScreen)) {
 		
@@ -74,12 +73,73 @@ header("Pragma: no-cache");
 		}  
 	  }  
 	}
+	
+	function myFunction() {
+	//	alert('Hello');
+	}
+	
+	
 </script>
-
+	
+	<script type="text/javascript">
+	
+	var base_url = "<?php echo base_url(); ?>";
+	// <![CDATA[
+	$(document).ready(function () {
+		$(function () {
+			$( "#kode_surat" ).autocomplete({
+				source: function(request, response) {
+					$.ajax({ 
+						url: "<?php echo site_url('index.php/admin/get_klasifikasi'); ?>",
+						data: { kode: $("#kode_surat").val()},
+						dataType: "json",
+						type: "POST",
+						success: function(data){
+							response(data);
+						}    
+					});
+				},
+			});
+		});
+		
+		$(function () {
+			$( "#dari" ).autocomplete({
+				source: function(request, response) {
+					$.ajax({ 
+						url: "<?php echo site_url('index.php/admin/get_instansi_lain'); ?>",
+						data: { kode: $("#dari").val()},
+						dataType: "json",
+						type: "POST",
+						success: function(data){
+							response(data);
+						}    
+					});
+				},
+			});
+		});
+		
+		
+		$(function() {
+			$( "#tgl_surat" ).datepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: 'yy-mm-dd'
+			});
+		});
+		
+		$('.tv').click(function(){
+			toggleFullScreen();
+		})
+		
+	
+	});
+	
+	
+	// ]]>
 	</script>
 	</head>
 	
-  <body class="<?php echo (isset($style) ? $style:""); ?>">
+  <body class="tv tv2">
   
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -92,52 +152,22 @@ header("Pragma: no-cache");
         </div>
 		
         <div class="navbar-collapse collapse" id="navbar-main">
-		<?php echo (isset($style) == "tv" ? "<h2 class='title'><i class='fa fa-tachometer'></i> Dashboard SIPP</h2>":""); ?>
-          <ul class="nav navbar-nav">	
-			<li><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="icon-home icon-white"> </i> Beranda</a></li>
-        <li><a href="<?php echo base_url(); ?>index.php/perkara"><i class="ion-clock icon-white"> </i> Penanganan Perkara</a></li>
-
-        <li class="dropdown"><a href="<?php echo base_url(); ?>index.php/validasi/pts_blm_ikrar"><i class="ion-document-text icon-white"> </i> Perkara Putus Belum Ikrar</a>
-            <ul class="dropdown-menu">
-                <li>testing</li>
-            </ul>
-              </li>
-			  
-		  
-		<!-- 
-		<li><a href="http://192.168.1.100/sipp_edoc"><i class="ion-clock icon-white"> </i> Cek Edoc SIPP
-		<div class="notif">99</div></a></li>
-		<li><a href="http://192.168.1.100/sipp_dokumen"><i class="ion-clock icon-white"> </i> SIPP Dokumen (rasa siadpa)</a></li>
-		<li><a href="http://192.168.1.100/dash_pta"><i class="ion-clock icon-white"> </i> Dashboard PTA (exclusive)</a></li>
-        -->
-		
+		<h2 class='title'><i class='fa fa-tachometer'></i>TV MEDIA  Pengadilan Agama Stabat 
 
         </div>
       </div>
     </div>
 
 	
-    <div class="container  paddingBottom50" style="padding-top:60px">
-
-     
-
+    <div class="container" style="padding-top:60px">
 		<?php echo $content; ?>
+	 </div>
 	
- 
-    </div>
 	
-	<div id="footer">
-	 <div class="container">
-        <?php
-        echo $this->session->userdata('namaPN');
-        ?>
-        <?php if (!isset($style)) :
-		?>
-		<span class=""> - dikembangkan oleh TIM SATGAS PTA Medan</span>
-		<?php endif;?>
-    </div>
-	</div>
 	<div class="loading"></div>
 
-  
+  <script>
+   toggleFullScreen();
+  //document.webkitRequestFullscreen();
+  </script>
 </body></html>

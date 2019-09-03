@@ -66,6 +66,26 @@ Kisaran 18-01-2017
     padding-top: 8px;
 }
 
+.bg-green{
+	background:url(../img/bg_panel_green.png) no-repeat bottom right;
+}
+
+.bg-yellow{
+	background:url(../img/bg_panel_yellow.png) no-repeat bottom right;
+} 
+
+.bg-blue{
+	background:url(../img/bg_panel_blue.png) no-repeat bottom right;
+} 
+
+.bg-aqua{
+	background:url(../img/bg_panel_aqua.png) red no-repeat bottom right;
+} 
+
+.bg-red{
+	background:url(../img/bg_panel_red.png) no-repeat bottom right;
+} 
+
 .paddingBottom50{
 	padding-bottom:50px;	
 }
@@ -174,3 +194,53 @@ ul.nTicker li{
 	clear:both;
 }	
 
+.pstyle1{
+	background:url(../img/bg1.png) no-repeat bottom right;
+}
+
+.pstyle2{
+	background:url(../img/bg2.png) no-repeat bottom right;
+}
+
+.pstyle3{
+	background:url(../img/bg3.png) no-repeat bottom right;
+}
+
+.bgTatib{
+	backgroundd:red;
+}
+	
+.NTBawah{
+		padding:10px;
+		background:#b3f2c8;
+}	
+
+/***** AC ****/
+#camArea{
+	display:none;
+}
+
+.notif {
+
+    display: block;
+    background-color: red;
+    border: 1px solid red;
+    color: white;
+    font: 12px/13px Verdana;
+    min-height: 16px;
+    max-height: 20px;
+    min-width: 12px;
+    max-height: 16px;
+    padding: 2px 3px 0 3px;
+    text-align: center;
+    position: absolute;
+    border-radius: 19%;
+    z-index: 999;
+    right: 10px;
+    top: 10px;
+    animation: mendal 1s infinite;
+    -webkit-animation: mendal 1s infinite;
+    -moz-animation: mendal 1s infinite;
+    -o-animation: mendal 1s infinite;
+
+}

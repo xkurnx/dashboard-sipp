@@ -170,119 +170,72 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 	
 	<br />
 	<div class="row">
-			<div class="col-lg-6">
-				<div class="panel-group">
-				<div class="panel panel-green">
-					<div class="panel-heading">
-					 <i class="fa fa-building"></i> Ruang Sidang I
-					 <div class="clearfix"></div>
-					 </div>
-					<div class="panel-body">
-					
-					<div style="">
-						<span class="w20"><strong>Nomor Perkara</strong></span>
-						<span class="w50"><strong>Pihak Pertama</strong></span>
-						<span class="w30"><strong>Agenda</strong></span>
-					</div>
-					
-					
-					<ul  class="nTicker nTicker2">
-							<?php
-							foreach ( $jadwal_sidang_1 as $row ):
-							$pars = explode("/",$row['nomor_perkara']);
-							$no_perk =  $pars[0].(str_replace('Pdt.','',$pars[1])).$pars[2];
-							?>
-							
-							
-							<li>
-								<span class="w20"><?php echo $no_perk;?></span>
-								<span class="w40"><?php echo $row['pihak1_text'];?></span>
-								<span class="w40"><?php echo $row['agenda'];?></span>
-							</li>
-							<?php
-							endforeach;
-							?>
-					</ul>
-					
-				
-					</div>
-				</div>		
+			<div class="col-lg-4">
+			<div class="small-box bg-green">
+				<div class="inner">
+					<span class="stats-small__label text-uppercase  text-white">Saldo Buku Kas Umum</span>
+					<h3 id="total_bku"></h3>
 				</div>
+				
+				
+			</div>	
 			</div>	
 			
-			<div class="col-lg-6">
-				<div class="panel-group">
-				<div class="panel panel-green">
-					<div class="panel-heading">
-					 <i class="fa fa-building"></i> Ruang Sidang II</h3>
-					 <div class="clearfix"></div>
-					 </div>
-					<div class="panel-body">
-					
-					
-						<div style="">
-						<span class="w20"><strong>Nomor Perkara</strong></span>
-						<span class="w50"><strong>Pihak Pertama</strong></span>
-						<span class="w30"><strong>Agenda</strong></span>
-					</div>
-					
-					
-					<ul  class="nTicker nTicker2">
-							<?php
-							foreach ( $jadwal_sidang_2 as $row ):
-							$pars = explode("/",$row['nomor_perkara']);
-							$no_perk =  $pars[0].(str_replace('Pdt.','',$pars[1])).$pars[2];
-							?>
-							
-							
-							<li>
-								<span class="w20"><?php echo $no_perk;?></span>
-								<span class="w50"><?php echo $row['pihak1_text'];?></span>
-								<span class="w30"><?php echo $row['agenda'];?></span>
-							</li>
-							<?php
-							endforeach;
-							?>
-					</ul>
-				
-					</div>
-				</div>		
+			<div class="col-lg-4">
+			<div class="small-box bg-blue">
+				<div class="inner">
+					<span class="stats-small__label text-uppercase  text-white">Saldo BKIP/LIPA7</span>
+					<h3 id="total_lipa7"></h3>
 				</div>
+				
+				
+			</div>	
+			</div>		
+			
+			<div class="col-lg-4">
+			<div class="small-box bg-yellow">
+				<div class="inner">
+					<span class="stats-small__label text-uppercase  text-white">Saldo BANK</span>
+					<h3 id="total_bank"></h3>
+				</div>
+				
+				
+			</div>	
 			</div>	
 	</div>
 	
 	
-	<br />
+
 	
 	<div class="row">
 			<div class="col-lg-6">
 				<div class="panel-group">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-					 <i class="fa fa-line-chart"></i> Rekap Per Jenis Perkara
+					 <i class="fa fa-line-chart"></i> Rekap Per Panitera Pengganti
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">
 					
 					<div style="">
-						<span class="w40"><strong>Jenis Perkara</strong></span>
-						<span class="w20"><strong>Sisa</strong></span>
-						<span class="w20"><strong>Terima</strong></span>
+						<span class="w40"><strong>Nama PP</strong></span>
+						<span class="w20"><strong>Beban Perkara</strong></span>
 						<span class="w20"><strong>Putus</strong></span>
+						<span class="w20"><strong>Minut</strong></span>
 					</div>
 					
 					
 					<ul  class="nTicker nTicker1">
 							<?php
-							foreach ( $rekap_jenis_perkara as $row ):
+							foreach ( $progres_pp as $row ):
 							?>
 							
 							
 							<li>
-								<span class="w40"><?php echo $row['jenis_perkara_text'];?></span>
-								<span class="w20"><?php echo $row['sisa'];?></span>
-								<span class="w20"><?php echo $row['terima'];?></span>
+								<span class="w40"><?php echo $row['pp'];?></span>
+								<span class="w20"><?php echo ($row['sisa']+$row['terima']);?></span>
 								<span class="w20"><?php echo $row['putus'];?></span>
+								<span class="w20"><?php echo $row['minutasi'];?></span>
 							</li>
 							<?php
 							endforeach;
@@ -299,7 +252,7 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 				<div class="panel-group">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-					 <i class="fa fa-info-circle"></i> Informasi Sistem</h3>
+					 <i class="fa fa-info-circle"></i> <a onclick="toggleFullScreen()">Informasi Sistem </a></h3>
 					 <div class="clearfix"></div>
 					 </div>
 					<div class="panel-body">					
@@ -332,4 +285,7 @@ Rumus : <br />Minut / ( Sisa + Terima) * 100%
 		
 		
     </div>
+	
+
+
 	

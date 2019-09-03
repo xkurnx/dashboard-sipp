@@ -2,11 +2,11 @@
 $active_group 				= 'default';
 $active_record 				= TRUE;
 
-$db['default']['hostname'] = '192.168.1.100';
-$db['default']['username'] = 'sipp_select';
-$db['default']['password'] = 'sipp_select';
-$db['default']['database'] = 'sipp-prod';
-$db['default']['dbdriver'] = 'mysql';
+$db['default']['hostname'] = '192.168.10.250';
+$db['default']['username'] = 'it_select';
+$db['default']['password'] = 'it2019';
+$db['default']['database'] = 'sipp';
+$db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;

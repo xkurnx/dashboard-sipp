@@ -39,7 +39,7 @@ class Dashboard_model extends CI_Model {
 			$sql = "SELECT nomor_perkara,left(pihak1_text,40) pihak1_text,agenda FROM perkara p, perkara_jadwal_sidang pjs
 			WHERE p.`perkara_id`=pjs.`perkara_id`
 			AND DATE_FORMAT(tanggal_sidang,'%D %M %Y') = DATE_FORMAT(NOW(),'%D %M %Y')
-			AND ruangan = $ruang";
+			AND ruangan = 'Ruang Sidang $ruang'";
 		return $this->db->query($sql)->result_array();
 	
 	}	
@@ -58,14 +58,21 @@ class Dashboard_model extends CI_Model {
 			ORDER BY (sisa+terima+putus) DESC";
 		return $this->db->query($sql)->result_array();	
 	}
+	
+	function blm_psp()
+	{
+		$sql = "SELECT * FROM sipp_turunan_tv.tv_blm_psp";
+		return $this->db->query($sql)->result_array();	
+	}
 	 
 	
 	function sys_info ()
 	{
 		$sql= "SELECT 'Versi SIPP Terpasang' ket, patch_ver val FROM updates WHERE id = (SELECT MAX(id) FROM updates)
 				UNION
-				SELECT 'User Online ', COUNT(1) val FROM sys_user_online a,sys_users b WHERE a.`userid`=b.`userid`
-				AND HOUR(TIMEDIFF(NOW(),last_login)) < 2
+				SELECT 'User Online ', COUNT(1) FROM sys_user_online AS suo
+				LEFT JOIN sys_users AS su ON suo.userid=su.userid
+				WHERE DATE(login_time)=CURDATE()
 				UNION
 				SELECT 'Backup Terakhir', CONCAT(MIN(DATEDIFF(NOW(),timestamp_backup)),' hari yang lalu') FROM sys_backup
 				";
@@ -75,29 +82,29 @@ class Dashboard_model extends CI_Model {
 	
 	function fetch_rekap_stat_perkara(){
 		$sql = "SELECT * FROM
-(
-SELECT '1.stat_global' ket, -- SUBSTRING_INDEX(SUBSTRING_INDEX( REPLACE(`majelis_hakim_nama`,'</br>','<br/>') , '<br/>', 2 ),'<br/>',1) ketua,
-SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW())  AND (tanggal_minutasi IS NULL OR YEAR(tanggal_minutasi)=YEAR(NOW())) THEN 1 ELSE 0 END) sisa,
-SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
-SUM(CASE WHEN YEAR(tanggal_putusan) = YEAR(NOW()) THEN 1 ELSE 0 END) putus,
-SUM(CASE WHEN YEAR(tanggal_minutasi) =YEAR(NOW()) THEN 1 ELSE 0 END) minutasi
-FROM v_perkara
-UNION
-SELECT '2.stat_today' ket, -- SUBSTRING_INDEX(SUBSTRING_INDEX( REPLACE(`majelis_hakim_nama`,'</br>','<br/>') , '<br/>', 2 ),'<br/>',1) ketua,
-SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW())  AND (tanggal_minutasi IS NULL OR YEAR(tanggal_minutasi)=YEAR(NOW())) THEN 1 ELSE 0 END) sisa,
-SUM(CASE WHEN DATE_FORMAT(tanggal_pendaftaran,'%D %M %Y') = DATE_FORMAT(NOW(),'%D %M %Y') THEN 1 ELSE 0 END) terima,
-SUM(CASE WHEN DATE_FORMAT(tanggal_putusan,'%D %M %Y') = DATE_FORMAT(NOW(),'%D %M %Y') THEN 1 ELSE 0 END) putus,
-SUM(CASE WHEN DATE_FORMAT(tanggal_minutasi,'%D %M %Y') = DATE_FORMAT(NOW(),'%D %M %Y') THEN 1 ELSE 0 END) minutasi
-FROM v_perkara
-UNION
-SELECT '3.stat_this_month' ket, -- SUBSTRING_INDEX(SUBSTRING_INDEX( REPLACE(`majelis_hakim_nama`,'</br>','<br/>') , '<br/>', 2 ),'<br/>',1) ketua,
-SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW())  AND (tanggal_minutasi IS NULL OR YEAR(tanggal_minutasi)=YEAR(NOW())) THEN 1 ELSE 0 END) sisa,
-SUM(CASE WHEN DATE_FORMAT(tanggal_pendaftaran,'%M %Y') = DATE_FORMAT(NOW(),'%M %Y') THEN 1 ELSE 0 END) terima,
-SUM(CASE WHEN DATE_FORMAT(tanggal_putusan,'%M %Y') = DATE_FORMAT(NOW(),'%M %Y') THEN 1 ELSE 0 END) putus,
-SUM(CASE WHEN DATE_FORMAT(tanggal_minutasi,'%M %Y') = DATE_FORMAT(NOW(),'%M %Y') THEN 1 ELSE 0 END) minutasi
-FROM v_perkara
-) AS z
-ORDER BY ket ASC";
+				(
+				SELECT '1.stat_global' ket, -- SUBSTRING_INDEX(SUBSTRING_INDEX( REPLACE(`majelis_hakim_nama`,'</br>','<br/>') , '<br/>', 2 ),'<br/>',1) ketua,
+				SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW())  AND (tanggal_minutasi IS NULL OR YEAR(tanggal_minutasi)=YEAR(NOW())) THEN 1 ELSE 0 END) sisa,
+				SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
+				SUM(CASE WHEN YEAR(tanggal_putusan) = YEAR(NOW()) THEN 1 ELSE 0 END) putus,
+				SUM(CASE WHEN YEAR(tanggal_minutasi) =YEAR(NOW()) THEN 1 ELSE 0 END) minutasi
+				FROM v_perkara
+				UNION
+				SELECT '2.stat_today' ket, -- SUBSTRING_INDEX(SUBSTRING_INDEX( REPLACE(`majelis_hakim_nama`,'</br>','<br/>') , '<br/>', 2 ),'<br/>',1) ketua,
+				SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW())  AND (tanggal_minutasi IS NULL OR YEAR(tanggal_minutasi)=YEAR(NOW())) THEN 1 ELSE 0 END) sisa,
+				SUM(CASE WHEN DATE_FORMAT(tanggal_pendaftaran,'%D %M %Y') = DATE_FORMAT(NOW(),'%D %M %Y') THEN 1 ELSE 0 END) terima,
+				SUM(CASE WHEN DATE_FORMAT(tanggal_putusan,'%D %M %Y') = DATE_FORMAT(NOW(),'%D %M %Y') THEN 1 ELSE 0 END) putus,
+				SUM(CASE WHEN DATE_FORMAT(tanggal_minutasi,'%D %M %Y') = DATE_FORMAT(NOW(),'%D %M %Y') THEN 1 ELSE 0 END) minutasi
+				FROM v_perkara
+				UNION
+				SELECT '3.stat_this_month' ket, -- SUBSTRING_INDEX(SUBSTRING_INDEX( REPLACE(`majelis_hakim_nama`,'</br>','<br/>') , '<br/>', 2 ),'<br/>',1) ketua,
+				SUM(CASE WHEN YEAR(tanggal_pendaftaran)<YEAR(NOW())  AND (tanggal_minutasi IS NULL OR YEAR(tanggal_minutasi)=YEAR(NOW())) THEN 1 ELSE 0 END) sisa,
+				SUM(CASE WHEN DATE_FORMAT(tanggal_pendaftaran,'%M %Y') = DATE_FORMAT(NOW(),'%M %Y') THEN 1 ELSE 0 END) terima,
+				SUM(CASE WHEN DATE_FORMAT(tanggal_putusan,'%M %Y') = DATE_FORMAT(NOW(),'%M %Y') THEN 1 ELSE 0 END) putus,
+				SUM(CASE WHEN DATE_FORMAT(tanggal_minutasi,'%M %Y') = DATE_FORMAT(NOW(),'%M %Y') THEN 1 ELSE 0 END) minutasi
+				FROM v_perkara
+				) AS z
+				ORDER BY ket ASC";
 		return $this->db->query($sql)->result_array();
 	}
 		
@@ -108,12 +115,18 @@ ORDER BY ket ASC";
 					SUM(CASE WHEN YEAR(tanggal_pendaftaran)=YEAR(NOW()) THEN 1 ELSE 0 END) terima,
 					SUM(CASE WHEN YEAR(tanggal_putusan) =YEAR(NOW()) THEN 1 ELSE 0 END) putus,
 					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) THEN 1 ELSE 0 END) minutasi,
+					SUM(CASE WHEN YEAR(tanggal_minutasi)=YEAR(NOW()) 
+						AND DATEDIFF(tanggal_minutasi,tanggal_putusan)>0						
+					THEN 1 ELSE 0 END) not_odm,
+					SUM(CASE WHEN YEAR(tanggal_putusan) =YEAR(NOW()) AND putusan_id IS NULL THEN 1 ELSE 0 END) blm_dirput, 
 					SUM(CASE WHEN YEAR(tanggal_putusan) IS NULL THEN 1 ELSE 0 END) sisask
 					FROM 
 					(
-					SELECT a.perkara_id,b.id, b.nama,a.`nomor_perkara`,tanggal_pendaftaran, tanggal_putusan, tanggal_minutasi
+					SELECT a.perkara_id,b.id, b.nama,a.`nomor_perkara`,tanggal_pendaftaran, tanggal_putusan, tanggal_minutasi,putusan_id
 					FROM v_perkara a LEFT JOIN hakim_pn b
 					ON (SUBSTRING_INDEX(majelis_hakim_id, ',', 1) = b.`id`)
+					LEFT JOIN dirput_perkara c
+					ON (a.`perkara_id`=c.perkara_id)
 					) AS z
 					GROUP BY nama) as a1
 					WHERE ( terima + sisa ) > 0");			
@@ -154,6 +167,13 @@ ORDER BY ket ASC";
             case 'minutasi' :
 				$sql_filter = 'and YEAR(tanggal_minutasi)=YEAR(NOW())';
 			break;
+			case 'not_odm' :
+				$sql_filter = 'and YEAR(tanggal_minutasi)=YEAR(NOW()) 
+						AND DATEDIFF(tanggal_minutasi,tanggal_putusan)>0';
+			break;
+			case 'blm_dirput' :
+				$sql_filter = 'and YEAR(tanggal_putusan) =YEAR(NOW()) AND putusan_id IS NULL';
+			break;		
 			case 'sisask':
 				$sql_filter = 'and YEAR(tanggal_putusan) is NULL';
 			break;
@@ -161,7 +181,7 @@ ORDER BY ket ASC";
 				$sql_filter = '';
 			
 		}
-		#echo $sql_filter;
+		//echo $sql_filter;
         // klo hakim_id 0, berarti belum ditentukan
         if ( $id == 0 ) :
             $sql_filter .= " and b.id is null";
@@ -169,10 +189,17 @@ ORDER BY ket ASC";
             $sql_filter .= " and b.id = ".$id;
         endif;
 		
-		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,proses_terakhir_text
-									FROM v_perkara a LEFT JOIN hakim_pn b
-									ON (SUBSTRING_INDEX(majelis_hakim_id, ',', 1) = b.`id`)
-									WHERE 1=1
+		$sql = "SELECT a.perkara_id,a.`nomor_perkara`,pihak1_text, DATE_FORMAT(tanggal_pendaftaran,'%d-%m-%Y') tanggal_pendaftaran, DATE_FORMAT(sidang_pertama,'%d-%m-%Y') sidang_pertama,a.panitera_pengganti_text, DATE_FORMAT(tanggal_putusan,'%d-%m-%Y') tanggal_putusan, DATE_FORMAT(tanggal_minutasi,'%d-%m-%Y') tanggal_minutasi,
+		proses_terakhir_text,
+		jenis_perkara_id,tgl_ikrar_talak,tanggal_bht,putusan_id
+		FROM v_perkara a 
+		 LEFT OUTER JOIN perkara_ikrar_talak c
+		 ON (a.`perkara_id`=c.perkara_id)
+		LEFT JOIN hakim_pn b
+		ON (SUBSTRING_INDEX(a.majelis_hakim_id, ',', 1) = b.`id`)
+		LEFT JOIN dirput_perkara d
+					ON (a.`perkara_id`=d.perkara_id)
+		WHERE 1=1	
 									".$sql_filter;
 		
 		#echo "<pre>$sql</pre>";
@@ -243,7 +270,9 @@ ORDER BY ket ASC";
     		$sql = "SELECT DISTINCT * FROM perkara AS a LEFT JOIN perkara_ikrar_talak AS b ON a.`perkara_id`=b.`perkara_id`
     LEFT JOIN perkara_putusan AS c ON a.`perkara_id`=c.`perkara_id` join perkara_hakim_pn as d on a.`perkara_id`=d.`perkara_id`
     WHERE a.jenis_perkara_id='346' AND YEAR(a.tanggal_pendaftaran)=YEAR(NOW()) and c.status_putusan_id=62
-    and b.`penetapan_majelis_hakim` is NULL  AND c.tanggal_bht IS NOT NULL and jabatan_hakim_id=1 and d.`aktif`='Y'";
+    and b.`penetapan_majelis_hakim` is NULL  
+	/* AND c.tanggal_bht IS NOT NULL */
+	and jabatan_hakim_id=1 and d.`aktif`='Y'";
 
     		$query = $this->db->query($sql);
     		return $query->result_array();

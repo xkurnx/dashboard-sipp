@@ -16,23 +16,20 @@ class Tv extends CI_Controller {
 
 	}
 	
-	public function index() {
+	
+	public function index(){
 		$a['style']="tv";
-		$data['rekap_sidang'] = $this->dashboard->fetch_rekap_sidang();
-		$data['stat_perkara'] = $this->dashboard->fetch_rekap_stat_perkara();
-		$data['progres_hakim'] = $this->dashboard->get_progress_hakim();
-		$data['progres_pp'] = $this->dashboard->get_progress_pp();
-		$data['delegasi_keluar'] = $this->dashboard->fetch_upcoming_delegasi_keluar();
-		$data['delegasi_masuk'] = $this->dashboard->fetch_upcoming_delegasi_masuk();
 		$data['jadwal_sidang_1'] = $this->dashboard->jadwal_sidang(1);
 		$data['jadwal_sidang_2'] = $this->dashboard->jadwal_sidang(2);
-		$data['rekap_jenis_perkara'] = $this->dashboard->rekap_jenis_perkara();
-		$data['sys_info'] = $this->dashboard->sys_info();
-        $a['namaPN'] = $this->session->userdata('namaPN');
-		$a['content']	= $this->load->view('v_dashboard_tv', $data, true);	
-		$a['style']="tv";
-		$this->load->view('template', $a);	
-	}
+		$data['jadwal_sidang_3'] = $this->dashboard->jadwal_sidang(3);
+		$data['rekap_jenis_perkara'] = $this->dashboard->rekap_jenis_perkara();	
+		$data['blm_psp'] = $this->dashboard->blm_psp();	
+		$a['namaPN'] = $this->session->userdata('namaPN');
+		$a['content'] = $this->load->view('v_tv_pengunjung', $data, true);	
+		$a['style']="tv";		
+		$this->load->view('template_tv', $a);	
+		
+	}	
 	
 	public function progress_hakim_detail($id,$filter){
 		
