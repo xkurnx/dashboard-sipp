@@ -315,6 +315,12 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
+$config['jml_r_sidang'] = 2;
+$config['msg_running'] = "Sebelum sidang, pastikan diri anda telah mendaftar kepada petugas persidangan untuk didaftarkan pada di antrian sidang | 
+			Jagalah Kebersihan dan buanglah sampah pada tempatnya | 
+			Kawasan Bebas Rokok dan dilarang keras Merokok di kawasan ini| 
+			Pastikan Kendaraan anda telah terkunci dan parkir pada tempatnya | 	
+		";
 
 
 /* End of file config.php */

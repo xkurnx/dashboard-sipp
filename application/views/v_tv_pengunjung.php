@@ -2,6 +2,10 @@
 
 	<div class="row">
 			<div class="col-lg-6">
+				<?php
+				if ( $this->config->item('jml_r_sidang') >= 2 ) :			
+				?>
+				
 				<div class="panel-group">
 				<div class="panel panel-green">
 					<div class="panel-heading">
@@ -45,9 +49,14 @@
 					</div>
 				</div>		
 				</div>
+				<?php endif; ?>
 			</div>	
 			
 			<div class="col-lg-6">
+				<?php
+				if ( $this->config->item('jml_r_sidang') >= 2 ) :			
+				?>
+				
 				<div class="panel-group">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
@@ -89,6 +98,9 @@
 					</div>
 				</div>		
 				</div>
+				<?php
+				endif;
+				?>
 			</div>	
 	</div>
 	
@@ -96,7 +108,60 @@
 	<br />
 	
 	<div class="row">
+			
 			<div class="col-lg-6">
+				<?php
+				if ( $this->config->item('jml_r_sidang') == 1 ) :			
+				?>
+				
+				<div class="panel-group">
+				<div class="panel panel-green">
+					<div class="panel-heading">
+					 <i class="fa fa-building"></i> Ruang Sidang I
+					 <div class="clearfix"></div>
+					 </div>
+					<div class="panel-body pstyle1">
+					
+					<div style="">
+						<span class="w20"><strong>Nomor Perkara</strong></span>
+						<span class="w50"><strong>Pihak Pertama</strong></span>
+						<span class="w30"><strong>Agenda</strong></span>
+					</div>
+					
+					
+					<ul  class="nTicker nTicker5">
+							<?php
+							if (count($jadwal_sidang_1) > 0 ) :
+							foreach ( $jadwal_sidang_1 as $row ):
+							$pars = explode("/",$row['nomor_perkara']);
+							$no_perk =  $pars[0].(str_replace('Pdt.','',$pars[1])).$pars[2];
+							?>
+							
+							
+							<li>
+								<span class="w20"><?php echo $no_perk;?></span>
+								<span class="w40"><?php echo $row['pihak1_text'];?></span>
+								<span class="w40"><?php echo $row['agenda'];?></span>
+							</li>
+							<?php
+							endforeach;
+							else :
+							echo "-- Tidak ada sidang --";
+							endif;
+							?>
+							
+							
+					</ul>
+					
+				
+					</div>
+				</div>		
+				</div>
+				<?php endif; ?>
+				
+				<?php
+				if ( $this->config->item('jml_r_sidang') == 3 ) :			
+				?>
 				<div class="panel-group">
 				<div class="panel panel-danger">
 					<div class="panel-heading">
@@ -140,6 +205,9 @@
 					</div>
 				</div>					
 				</div>
+				<?php
+				endif;
+				?>
 				
 				<br />
 				<div class="panel-group">
@@ -225,13 +293,8 @@ endforeach;
 		<div class="col-lg-12">
 			<div class="NTBawah"><marquee>
 			Selamat Datang di  <?php
-        echo $this->session->userdata('namaPN');
-        ?> | 
-			Sebelum sidang, pastikan diri anda telah mendaftar kepada petugas persidangan untuk didaftarkan pada di antrian sidang | 
-			Jagalah Kebersihan dan buanglah sampah pada tempatnya | 
-			Kawasan Bebas Rokok dan dilarang keras Merokok di kawasan ini| 
-			Pastikan Kendaraan anda telah terkunci dan parkir pada tempatnya | 	
-			</marquee>			
+        echo $this->session->userdata('namaPN')." | ".$this->config->item('msg_running'); 
+        ?></marquee>			
 			</div>
 		</div>	
 		
